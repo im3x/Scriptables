@@ -3,20 +3,18 @@
 // 公众号：古人云
 // 参数：int，用于展示第几条数据，默认0（第一条）
 
-// 获取数据
-let data = await getData()
-// 初始化组件ui
-let widget = await createWidget(data)
 
-// 如果不是在组件执行，则显示预览
-if (!config.runsInWidget) {
-  await widget.presentLarge()
-} else {
-  // 设置桌面组件
-  Script.setWidget(widget)
-}
+getData().then(one => {
+  createWidget(one).then(widget => {
+    if (!config.runsInWidget) {
+      await widget.presentLarge()
+    } else {
+      Script.setWidget(widget)
+    }
+    Script.complete()
+  })
+})
 
-Script.complete()
 
 // 创建组件
 async function createWidget(one) {
