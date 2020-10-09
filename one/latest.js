@@ -87,7 +87,7 @@ async function createWidget(one) {
 
 // 获取数据
 async function getData() {
-  const API = "http://m.wufazhuce.com/one";
+  const API = "http://m.wufazhuce.com/one"
   const req1 = new Request(API)
   await req1.load()
   const body1 = await req1.loadString()
