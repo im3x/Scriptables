@@ -6,7 +6,7 @@
 //
 
 // 解析 & 替换桌面组件传递过来的参数，比如 welcome@latest:hello
-const PLUGIN = {
+Script.im3x = {
   name: "welcome",
   args: "",
   version: "latest"
@@ -15,17 +15,17 @@ if (args.widgetParameter) {
   let _args = args.widgetParameter.split(":")
   let _plug = _args[0].split("@")
   if (_plug.length === 2) {
-    PLUGIN["version"] = _plug[1]
+    Script.im3x["version"] = _plug[1]
   } else {
-    PLUGIN["version"] = "latest"
+    Script.im3x["version"] = "latest"
   }
-  PLUGIN["name"] = _plug[0]
-  if (_args.length === 2) PLUGIN["args"] = _args[1]
+  Script.im3x["name"] = _plug[0]
+  if (_args.length === 2) Script.im3x["args"] = _args[1]
 }
 _load()
 async function _load () {
   // 加载远程插件代码
-  const _REMOTE_CODE_REQ = new Request("https://github.com/im3x/Scriptables/raw/main/" + PLUGIN["name"] + "/" + PLUGIN["version"] + ".js?_=" + (+new Date))
+  const _REMOTE_CODE_REQ = new Request("https://github.com/im3x/Scriptables/raw/main/" + Script.im3x["name"] + "/" + Script.im3x["version"] + ".js?_=" + (+new Date))
   const _REMOTE_CODE_JS = await _REMOTE_CODE_REQ.loadString()
   // 执行代码
   eval(_REMOTE_CODE_JS)
