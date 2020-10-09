@@ -24,7 +24,7 @@ if (PLUGIN) {
   } catch (e) {}
 } else {
   try {
-    IDX = parseInt(args.widgetParams)
+    IDX = parseInt(args.widgetParameter)
   } catch (e) {}
 }
 if (!Number.isInteger(IDX)) IDX = 0
