@@ -8,7 +8,7 @@
 // 解析 & 替换桌面组件传递过来的参数，比如 welcome@latest:hello
 const PLUGIN = {
   name: "welcome",
-  args: "hello",
+  args: "",
   version: "latest"
 }
 if (args.widgetParameter) {
@@ -20,7 +20,7 @@ if (args.widgetParameter) {
     PLUGIN["version"] = "latest"
   }
   PLUGIN["name"] = _plug[0]
-  PLUGIN["args"] = _args[1]
+  if (_args.length === 2) PLUGIN["args"] = _args[1]
 }
 _load()
 async function _load () {
