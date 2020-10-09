@@ -16,19 +16,6 @@ if (!config.runsInWidget) {
   Script.setWidget(widget)
 }
 
-// 获取参数
-var IDX = 0
-if (PLUGIN) {
-  try {
-    IDX = parseInt(PLUGIN["args"])
-  } catch (e) {}
-} else {
-  try {
-    IDX = parseInt(args.widgetParameter)
-  } catch (e) {}
-}
-if (!Number.isInteger(IDX)) IDX = 0
-
 Script.complete()
 
 // 创建组件
@@ -87,7 +74,7 @@ async function createWidget(one) {
 
 // 获取数据
 async function getData() {
-  const API = "http://m.wufazhuce.com/one"
+  const API = "http://m.wufazhuce.com/one";
   const req1 = new Request(API)
   await req1.load()
   const body1 = await req1.loadString()
@@ -99,7 +86,20 @@ async function getData() {
   const res2 = await req2.loadJSON()
   
   const data = res2["data"]
-  
+
+  // 获取参数
+  var IDX = 0
+  if (typeof PLUGIN === "object") {
+    try {
+      IDX = parseInt(PLUGIN["args"])
+    } catch (e) {}
+  } else {
+    try {
+      IDX = parseInt(args.widgetParameter)
+    } catch (e) {}
+  }
+  if (!Number.isInteger(IDX)) IDX = 0
+    
   return data ? data[IDX] : false
 }
 
