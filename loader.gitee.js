@@ -1,5 +1,5 @@
 //
-// scriptable 加载器（gitee版，适用于国内）
+// scriptable 加载器
 // 用于加载远程 scriptable 桌面组件插件
 // author@im3x
 // 公众号@古人云
@@ -8,7 +8,7 @@
 // 解析 & 替换桌面组件传递过来的参数，比如 welcome@latest:hello
 const PLUGIN = {
   name: "welcome",
-  args: "hello",
+  args: "",
   version: "latest"
 }
 if (args.widgetParameter) {
@@ -20,7 +20,7 @@ if (args.widgetParameter) {
     PLUGIN["version"] = "latest"
   }
   PLUGIN["name"] = _plug[0]
-  PLUGIN["args"] = _args[1]
+  if (_args.length === 2) PLUGIN["args"] = _args[1]
 }
 _load()
 async function _load () {
