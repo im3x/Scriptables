@@ -6,7 +6,6 @@
 // https://github.com/im3x/Scriptables
 // 更多脚本和精彩教程请关注作者公众号 {古人云}
 
-
 main()
 
 async function main() {
@@ -19,7 +18,6 @@ async function main() {
   }
   Script.complete()
 }
-
 
 // 创建组件
 async function createWidget(text) {
@@ -44,9 +42,4 @@ async function createWidget(text) {
 async function getData() {
   let t = new Request('https://v1.hitokoto.cn/?encode=text')
   return t.loadString()
-}
-
-async function getImage (url) {
-  let r = new Request(url)
-  return await r.loadImage()
 }
