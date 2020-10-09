@@ -3,30 +3,34 @@
 // 公众号：古人云
 // 参数：int，用于展示第几条数据，默认0（第一条）
 
-main().then(widget => {
+if (typeof Script.im3x === 'undefined') {
+  let data = await getData()
+  let widget = await (config.widgetFamily === 'large' ? createWidget(data) : createSmallWidget(data))
   if (config.runsInWidget) {
     Script.setWidget(widget)
   } else {
     widget.presentLarge()
   }
   Script.complete()
-})
-
-async function main () {
-  let data = await getData()
-  let widget
-  switch (config.widgetFamily) {
-    case 'small':
-    case 'medium':
-      widget = await createSmallWidget(data)
-      break
-    case 'large':
-    default:
-      widget = await createWidget(data)
-      break
-  }
-  return widget
+} else {
+  getData().then(data => {
+    new Promise(RES => {
+      if (config.widgetFamily === 'large') {
+        createWidget(data).then(RES)
+      } else {
+        createSmallWidget(data).then(RES)
+      }
+    }).then(widget => {
+      if (config.runsInWidget) {
+        Script.setWidget(widget)
+      } else {
+        widget.presentLarge()
+      }
+      Script.complete()
+    })
+  })
 }
+
 
 // 加载失败
 async function errWidget (widget) {
