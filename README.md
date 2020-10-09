@@ -1,6 +1,20 @@
 # Scriptables
-iOS14桌面组件神器（Scriptable）原创脚本分享
+iOS14桌面组件神器（Scriptable）原创脚本分享    
+> 仅需一行代码，就能让你拥有丰富的iOS桌面组件！
 
+# 快速使用
+1. 手机上下载 [Scriptable](https://scriptable.app/) App    
+2. 打开App，点击右上角 + 号，复制如下代码，保存
+``` js
+(($)=>{new Request(`https://${$}.com/im3x/Scriptables/raw/main/loader.${$}.js`).loadString().then(eval)})('github')
+```
+注：如果是国内用户使用，链接github速度不理想或者无法加载，可以使用gitee国内版，插件代码保持同步一致：
+``` js
+(($)=>{new Request(`https://${$}.com/im3x/Scriptables/raw/main/loader.${$}.js`).loadString().then(eval)})('gitee')
+```
+3. 长按桌面，添加组件，选择 `Scriptable`，然后点击组件配置，选择刚刚保存的脚本，下方的参数根据情况输入配置即可！
+
+例如，我要显示`one`每日图文组件，配置下方输入`one`即可。
 
 ## 项目设计思路
 
