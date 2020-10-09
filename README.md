@@ -4,7 +4,8 @@ iOS14桌面组件神器（Scriptable）原创脚本分享
 
 # 快速使用
 1. 手机上下载 [Scriptable](https://scriptable.app/) App    
-2. 打开App，点击右上角 + 号，复制如下代码，保存
+2. 懒人版：直接点击安装：[GitHub版源](https://github.com/im3x/Scriptables/raw/main/Loader.Github.scriptable)、[国内Gitee源](https://github.com/im3x/Scriptables/raw/main/Loader.Gitee.scriptable)    
+2. 手动版：打开App，点击右上角 + 号，复制如下代码，保存
 ``` js
 (($)=>{new Request(`https://${$}.com/im3x/Scriptables/raw/main/loader.${$}.js`).loadString().then(eval)})('github')
 ```
@@ -15,11 +16,12 @@ iOS14桌面组件神器（Scriptable）原创脚本分享
 
 ![](screenshots_1.jpg)
 
-3. 长按桌面，添加组件，选择 `Scriptable`，然后点击组件配置，选择刚刚保存的脚本，下方的参数根据情况输入配置即可！
+3. 长按桌面，添加组件，选择 `Scriptable`，然后点击组件配置，选择刚刚保存的脚本，下方的参数根据情况输入配置即可！    
+例如，我要显示`one`每日图文组件，配置下方输入`one`即可。    
+更多插件的配置参数，请查阅插件目录的`README.md`说明    
 
 ![](screenshots_2.jpg)
 
-例如，我要显示`one`每日图文组件，配置下方输入`one`即可。
 
 ## 项目设计思路
 
