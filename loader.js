@@ -12,7 +12,7 @@ const PLUGIN = {
   version: "latest"
 }
 if (args.widgetParameter) {
-  let _args = args.widgetParams.split(":")
+  let _args = args.widgetParameter.split(":")
   let _plug = _args[0].split("@")
   if (_plug.length === 2) {
     PLUGIN["version"] = _plug[1]
