@@ -22,9 +22,11 @@ if (args.widgetParameter) {
   PLUGIN["name"] = _plug[0]
   PLUGIN["args"] = _args[1]
 }
-
-// 加载远程插件代码
-const _REMOTE_CODE_REQ = new Request("https://github.com/im3x/Scriptables/raw/main/" + PLUGIN["name"] + "/" + PLUGIN["version"] + ".js?_=" + (+new Date))
-const _REMOTE_CODE_JS = await _REMOTE_CODE_REQ.loadString()
-// 执行代码
-eval(_REMOTE_CODE_JS)
+_load()
+async function _load () {
+  // 加载远程插件代码
+  const _REMOTE_CODE_REQ = new Request("https://github.com/im3x/Scriptables/raw/main/" + PLUGIN["name"] + "/" + PLUGIN["version"] + ".js?_=" + (+new Date))
+  const _REMOTE_CODE_JS = await _REMOTE_CODE_REQ.loadString()
+  // 执行代码
+  eval(_REMOTE_CODE_JS)
+}
