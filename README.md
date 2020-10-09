@@ -14,13 +14,13 @@ iOS14桌面组件神器（Scriptable）原创脚本分享
 (($)=>{new Request(`https://${$}.com/im3x/Scriptables/raw/main/loader.${$}.js`).loadString().then(eval)})('gitee')
 ```
 
-![](https://im3xcn/scriptables/screenshots_1.jpg)
+![](https://im3x.cn/scriptables/screenshots_1.jpg)
 
 3. 长按桌面，添加组件，选择 `Scriptable`，然后点击组件配置，选择刚刚保存的脚本，下方的参数根据情况输入配置即可！    
 例如，我要显示`one`每日图文组件，配置下方输入`one`即可。    
 更多插件的配置参数，请查阅插件目录的`README.md`说明    
 
-![](https://im3xcn/scriptables/screenshots_2.jpg)
+![](https://im3x.cn/scriptables/screenshots_2.jpg)
 
 
 ## 项目设计思路
