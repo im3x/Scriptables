@@ -3,32 +3,91 @@
 // 公众号：古人云
 // 参数：int，用于展示第几条数据，默认0（第一条）
 
-main()
+main().then(widget => {
+  if (config.runsInWidget) {
+    Script.setWidget(widget)
+  } else {
+    widget.presentLarge()
+  }
+  Script.complete()
+})
 
 async function main () {
   let data = await getData()
-  let widget = await createWidget(data)
-  if (!config.runsInWidget) {
-    await widget.presentLarge()
-  } else {
-    Script.setWidget(widget)
+  let widget
+  switch (config.widgetFamily) {
+    case 'small':
+    case 'medium':
+      widget = await createSmallWidget(data)
+      break
+    case 'large':
+    default:
+      widget = await createWidget(data)
+      break
   }
-  Script.complete()
+  return widget
 }
 
+// 加载失败
+async function errWidget (widget) {
+  err = widget.addText("💔 加载失败，稍后重试..")
+  err.textColor = Color.red()
+  err.centerAlignText()
+  return widget
+}
+// 头部标题
+async function im3xCreateHeader (widget) {
+  console.log("create.header.start")
+  header = widget.addStack()
+  icon = header.addImage(await getImage("http://image.wufazhuce.com/apple-touch-icon.png"))
+  icon.imageSize = new Size(15, 15)
+  icon.cornerRadius = 4
+  title = header.addText("「ONE · 一个」")
+  title.font = Font.mediumSystemFont(13)
+  title.textColor = Color.white()
+  title.textOpacity = 0.7
+  widget.addSpacer(20)
+  console.log('create.header.done')
+  return widget
+}
 
-// 创建组件
+// 小组件
+async function createSmallWidget (one) {
+  console.log('create.small.widget')
+  let w = new ListWidget()
+  
+  if (!one) return await errWidget(w)
+  
+  w.url = one["url"]
+
+  w = await im3xCreateHeader(w)
+
+  body = w.addText(one['content'])
+  body.textColor = Color.white()
+  body.font = Font.lightSystemFont(config.widgetFamily === 'small' ? 14 : 16)
+  w.addSpacer(10)
+  footer = w.addText('—— ' + one['text_authors'])
+  footer.rightAlignText()
+  footer.textColor = Color.white()
+  footer.textOpacity = 0.8
+  footer.font = Font.lightSystemFont(12)
+
+  // 加载背景图片
+  let bg = await getImage(one["img_url"])
+
+  w.backgroundImage = await shadowImage(bg)
+  console.log('create.small.widget.done')
+
+  return w
+}
+
+// 创建组件，大
 async function createWidget(one) {
   let w = new ListWidget()
   
-  if (!one){
-    let err = w.addText("💔 加载失败 (/ω＼)")
-    err.textColor = Color.red()
-    err.centerAlignText()
-    return w
-  }
+  if (!one) return await errWidget(w)
+
   w.url = one["url"]
-  w.backgroundColor = new Color("#2193B0", 1)
   
 //   时间
   const dates = one["date"].split(" / ")
