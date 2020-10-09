@@ -1,0 +1,12 @@
+{
+  "always_run_in_app" : true,
+  "icon" : {
+    "color" : "blue",
+    "glyph" : "genderless"
+  },
+  "name" : "Loader.Github",
+  "script" : "((g)=>{new Request(`https:\/\/${g}.com\/im3x\/Scriptables\/raw\/main\/loader.${g}.js`).loadString().then(eval)})('github')",
+  "share_sheet_inputs" : [
+
+  ]
+}
