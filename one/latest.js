@@ -3,7 +3,9 @@
 // 公众号：古人云
 // 参数：int，用于展示第几条数据，默认0（第一条）
 
-if (typeof Script.im3x === 'undefined') {
+main()
+
+async function main() {
   let data = await getData()
   let widget = await (config.widgetFamily === 'large' ? createWidget(data) : createSmallWidget(data))
   if (config.runsInWidget) {
@@ -12,23 +14,6 @@ if (typeof Script.im3x === 'undefined') {
     widget.presentLarge()
   }
   Script.complete()
-} else {
-  getData().then(data => {
-    new Promise(RES => {
-      if (config.widgetFamily === 'large') {
-        createWidget(data).then(RES)
-      } else {
-        createSmallWidget(data).then(RES)
-      }
-    }).then(widget => {
-      if (config.runsInWidget) {
-        Script.setWidget(widget)
-      } else {
-        widget.presentLarge()
-      }
-      Script.complete()
-    })
-  })
 }
 
 
@@ -151,9 +136,9 @@ async function getData() {
 
   // 获取参数
   var IDX = 0
-  if (typeof PLUGIN === "object") {
+  if (typeof Script.im3x === "object") {
     try {
-      IDX = parseInt(PLUGIN["args"])
+      IDX = parseInt(Script.im3x["args"])
     } catch (e) {}
   } else {
     try {
