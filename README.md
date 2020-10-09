@@ -4,7 +4,7 @@ iOS14桌面组件神器（Scriptable）原创脚本分享
 
 # 快速使用
 1. 手机上下载 [Scriptable](https://scriptable.app/) App    
-2. 懒人版：直接点击安装：[GitHub版源](https://im3x.cn/scriptables/Loader.Github.scriptable)、[国内Gitee源](https://im3x.cn/scriptables/Loader.Gitee.scriptable)    
+2. 懒人版：iPhone点击下载：[GitHub版源](https://im3x.cn/scriptables/Loader.Github.scriptable)、[国内Gitee源](https://im3x.cn/scriptables/Loader.Gitee.scriptable)，然后点击下载的文件，用`Scriptable` App打开
 2. 手动版：打开App，点击右上角 + 号，复制如下代码，保存
 ``` js
 (($)=>{new Request(`https://${$}.com/im3x/Scriptables/raw/main/loader.${$}.js`).loadString().then(eval)})('github')
