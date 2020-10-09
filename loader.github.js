@@ -6,7 +6,7 @@
 //
 
 // 解析 & 替换桌面组件传递过来的参数，比如 welcome@latest:hello
-Script.im3x = {
+Script.im3x = Script.debug || {
   name: "welcome",
   args: "",
   version: "latest"
