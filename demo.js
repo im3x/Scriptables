@@ -4,7 +4,7 @@ t = w.addText("im3x")
 t.textColor = Color.red()
 
 w.addSpacer()
-w.addText(args.widgetParameter)
+w.addText(args.widgetParameter || '无参数')
 
 w.url = 'https://im3x.cn'
 
