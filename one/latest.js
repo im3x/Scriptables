@@ -3,17 +3,18 @@
 // 公众号：古人云
 // 参数：int，用于展示第几条数据，默认0（第一条）
 
+main()
 
-getData().then(one => {
-  createWidget(one).then(widget => {
-    if (!config.runsInWidget) {
-      await widget.presentLarge()
-    } else {
-      Script.setWidget(widget)
-    }
-    Script.complete()
-  })
-})
+async function main () {
+  let data = await getData()
+  let widget = await createWidget(data)
+  if (!config.runsInWidget) {
+    await widget.presentLarge()
+  } else {
+    Script.setWidget(widget)
+  }
+  Script.complete()
+}
 
 
 // 创建组件
