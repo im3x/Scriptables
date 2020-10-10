@@ -29,6 +29,7 @@ class Im3xLoader {
     this.filename = `${this.opt['name']}@${this.opt['version']}.js.im3x`
     this.filepath = FileManager.local().documentsDirectory() + '/' + this.filename
     this.notify()
+    this.update()
   }
 
   async init () {
@@ -88,6 +89,29 @@ class Im3xLoader {
     n.schedule()
     // 设置已通知
     Keychain.set(key, 'ok')
+  }
+  async update () {
+    console.log('[check update..]')
+    let req = new Request(`https://gitee.com/api/v5/repos/im3x/Scriptables/commits?path=loader.${this.git}.js&page=1&per_page=1`)
+    let res = await req.loadJSON()
+    let commit = res[0]
+    console.log(commit)
+    let key = `im3x_loader_${this.git}_update_${commit['sha']}`
+    if (Keychain.contains(key)) return
+    // 加载远程代码内容
+    let req1 = new Request(`https://gitee.com/im3x/Scriptables/raw/main/loader.${this.git}.js`)
+    let res1 = await req1.loadString()
+    // 当前脚本的路径
+    let self = FileManager.local().documentsDirectory() + "/" + Script.name() + ".js"
+    // 读取前三行代码（包含图标信息）
+    let selfContent = FileManager.local().readString(self)
+    let tmp = selfContent.split("\n")
+    // 放到前三行
+    let new_code = `${tmp[0]}\n${tmp[1]}\n${tmp[2]}\n${res1}`
+    // 写入文件
+    FileManager.local().writeString(self, new_code)
+    console.log("[update ok]")
+    Keychain.set(key, "ok")
   }
 }
 const Loader = new Im3xLoader('gitee')
