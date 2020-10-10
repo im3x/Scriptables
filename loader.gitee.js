@@ -76,12 +76,12 @@ class Im3xLoader {
   }
   
   async notify () {
-    let req = new Request(`https://${this.git}.com/im3x/Scriptables/raw/main/update.notify.json`)
+    let req = new Request(`https://${this.git}.com/im3x/Scriptables/raw/main/update.notify.json?_=${+new Date}`)
     let res = await req.loadJSON()
     if (!res || !res['id']) return
     // 判断是否已经通知过
     let key = `im3x_notify_${res['id']}`
-    if (Keychain.get(key) === 'ok') return
+    if (Keychain.contains(key)) return
     // 通知
     let n = new Notification()
     n = Object.assign(n, res)
