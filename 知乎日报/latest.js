@@ -49,6 +49,7 @@ class Im3xWidget {
     footer.textOpacity = 0.5
 
     w.backgroundImage = await this.shadowImage(await this.getImage(data['images'][0]))
+    w.url = data['url']
     return w
   }
   /**
