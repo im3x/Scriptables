@@ -1,3 +1,4 @@
+
 //
 // scriptable 加载器
 // 用于加载远程 scriptable 桌面组件插件
@@ -5,52 +6,52 @@
 // 公众号@古人云
 //
 
-// 解析 & 替换桌面组件传递过来的参数，比如 welcome@latest:hello
-Script.im3x = Script.debug || {
-  name: "welcome",
-  args: "",
-  version: "latest"
-}
-if (args.widgetParameter) {
-  let _args = args.widgetParameter.split(":")
-  let _plug = _args[0].split("@")
-  if (_plug.length === 2) {
-    Script.im3x["version"] = _plug[1]
-  } else {
-    Script.im3x["version"] = "latest"
+class Im3xLoader {
+  constructor () {
+    // 仓库源
+    this.git = "github"
+    // 解析参数
+    this.opt = {
+      name: 'welcome',
+      args: '',
+      version: 'latest'
+    }
+    if (args.widgetParameter) {
+      let _args = args.widgetParameter.split(":")
+      let _plug = _args[0].split("@")
+      if (_plug.length === 2) {
+        this.opt['version'] = _plug[1]
+      }
+      this.opt['name'] = _plug[0]
+      if (_args.length === 2) this.opt['args'] = _args[1]
+    }
+    // 缓存路径
+    this.filename = `${this.opt['name']}@${this.opt['version']}.js.im3x`
+    this.filepath = FileManager.local().documentsDirectory() + '/' + this.filename
   }
-  Script.im3x["name"] = _plug[0]
-  if (_args.length === 2) Script.im3x["args"] = _args[1]
+
+  async init () {
+    // 判断文件是否存在
+    let rendered = false
+    if (FileManager.local().fileExists(this.filepath)) {
+      await this.render()
+      rendered = true
+    }
+    // 加载代码，存储
+    let req = new Request(`https://${this.git}.com/im3x/Scriptables/raw/main/${encodeURIComponent(this.opt['name'])}/${this.opt['version']}.js?_=${+new Date}`)
+    let res = await req.loadString()
+    await FileManager.local().writeString(this.filepath, res)
+    if (!rendered) await this.render()
+
+    Script.complete()
+  }
+  async render () {
+    let M = importModule(this.filename)
+    let m = new M(this.opt['args'])
+    if (!config.runsInWidget) return await m.test()
+    let w = await m.render()
+    Script.setWidget(w)
+  }
 }
 
-// 先读取本地是否有缓存代码，如果有，则直接导入
-const PATH = FileManager.local().documentsDirectory()
-const FILE_NAME = Script.im3x['name'] + '@' + Script['im3x']['version'] + '.js.im3x'
-const FILE = PATH + "/" + FILE_NAME
-if (FileManager.local().fileExists(FILE)) {
-  _init(FILE_NAME)
-  _load(FILE)
-} else {
-  await _load(FILE)
-  _init(FILE_NAME)
-}
-async function _load (FILE) {
-  // 加载远程插件代码
-  console.log('load.start')
-  console.log(FILE)
-  const _REMOTE_CODE_REQ = new Request("https://github.com/im3x/Scriptables/raw/main/" + encodeURIComponent(Script.im3x["name"]) + "/" + Script.im3x["version"] + ".js?_=" + (+new Date))
-  const _REMOTE_CODE_JS = await _REMOTE_CODE_REQ.loadString()
-  console.log('load.end')
-  console.log('write.start')
-  FileManager.local().writeString(FILE, _REMOTE_CODE_JS)
-  console.log('write.end')
-  return _REMOTE_CODE_JS
-}
-async function _init (FILE) {
-  let M = importModule(FILE)
-  let m = new M(Script.im3x['args'])
-  let w = await m.render()
-  if (!config.runsInWidget) return
-  Script.setWidget(w)
-  Script.complete()
-}
+new Im3xLoader().init()
