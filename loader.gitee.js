@@ -54,4 +54,5 @@ class Im3xLoader {
   }
 }
 
-new Im3xLoader().init()
+Script.loader = new Im3xLoader()
+Script.loader.init()
