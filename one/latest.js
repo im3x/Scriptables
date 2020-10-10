@@ -1,5 +1,9 @@
+
 //
-// 通用框架插件模版代码
+// ONE·一个图文
+// iOS14 桌面组件插件 for Scriptable
+// author@古人云
+// https://github.com/im3x/Scriptables
 //
 
 class Im3xWidget {
@@ -10,7 +14,7 @@ class Im3xWidget {
   }
   // 渲染组件
   async render () {
-    let data = await this.getData(this.arg)
+    let data = await this.getData()
     let widget = await (config.widgetFamily === 'large') ? this.renderLarge(data) : this.renderSmall(data)
     return widget
   }
@@ -111,7 +115,7 @@ class Im3xWidget {
     widget.addSpacer(20)
     return widget
   }
-  async getData (idx) {
+  async getData () {
     const API = "http://m.wufazhuce.com/one";
     const req1 = new Request(API)
     await req1.load()
@@ -125,7 +129,7 @@ class Im3xWidget {
     
     const data = res2["data"]
 
-    return data ? data[idx] : false
+    return data ? data[this.idx] : false
   }
   async getImage (url) {
     let r = new Request(url)
@@ -162,6 +166,8 @@ class Im3xWidget {
   }
 }
 
+if (!Script.loader) {
+  new Im3xWidget().test()
+  new Im3xWidget().init()
+}
 module.exports = Im3xWidget
-new Im3xWidget().test()
-new Im3xWidget().init()
