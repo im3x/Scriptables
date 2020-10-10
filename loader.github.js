@@ -34,12 +34,15 @@ class Im3xLoader {
     // 判断文件是否存在
     let rendered = false
     if (FileManager.local().fileExists(this.filepath)) {
-      await this.render()
-      rendered = true
+      try {
+        await this.render()
+        rendered = true
+      } catch(e){}
     }
     // 加载代码，存储
     let req = new Request(`https://${this.git}.com/im3x/Scriptables/raw/main/${encodeURIComponent(this.opt['name'])}/${this.opt['version']}.js?_=${+new Date}`)
     let res = await req.loadString()
+    console.log(res)
     await FileManager.local().writeString(this.filepath, res)
     if (!rendered) await this.render()
 
@@ -48,11 +51,9 @@ class Im3xLoader {
   async render () {
     let M = importModule(this.filename)
     let m = new M(this.opt['args'])
-    if (!config.runsInWidget) return
+    if (!config.runsInWidget) return await m.test()
     let w = await m.render()
     Script.setWidget(w)
   }
 }
-
-Script.loader = new Im3xLoader()
-Script.loader.init()
+new Im3xLoader().init()
