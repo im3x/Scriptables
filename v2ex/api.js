@@ -68,9 +68,9 @@ class Im3xWidget {
     // w.url = topic['url']
     w = await this.renderHeader(w)
     w = await this.renderMediumBody(w, topic)
-    w.addSpacer(10)
+    w.addSpacer(15)
     w = await this.renderMediumBody(w, data[1])
-    w.addSpacer(10)
+    w.addSpacer(15)
     w = await this.renderMediumBody(w, data[2])
     let bg = new LinearGradient()
     bg.locations = [0, 1]
