@@ -118,18 +118,16 @@ class Im3xWidget {
   async getData () {
     const API = "http://m.wufazhuce.com/one";
     const req1 = new Request(API)
-    await req1.load()
+    // await req1.load()
     const body1 = await req1.loadString()
     const token = body1.split("One.token = '")[1].split("'")[0]
-    console.log(token)
     
     const API2 = "http://m.wufazhuce.com/one/ajaxlist/0?_token=" + token
     const req2 = new Request(API2)
     const res2 = await req2.loadJSON()
-    
     const data = res2["data"]
 
-    return data ? data[this.idx] : false
+    return data ? data[this.arg] : false
   }
   async getImage (url) {
     let r = new Request(url)
