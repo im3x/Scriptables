@@ -48,7 +48,7 @@ class Im3xLoader {
   async render () {
     let M = importModule(this.filename)
     let m = new M(this.opt['args'])
-    if (!config.runsInWidget) return await m.test()
+    if (!config.runsInWidget) return
     let w = await m.render()
     Script.setWidget(w)
   }
