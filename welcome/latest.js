@@ -9,6 +9,10 @@ class Im3xWidget {
     let t = "Hello, Scriptable ❤️"
     let u = 'https://github.com/im3x/Scriptables'
     widget.addText(t)
+    if (this.arg) {
+      widget.addSpacer(10)
+      let tt = widget.addText("arg: " + this.arg)
+    }
     // widget.addText("arg:" + (this.arg || 'null'))
     widget.url = u
     
