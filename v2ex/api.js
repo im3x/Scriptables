@@ -15,6 +15,17 @@ class Im3xWidget {
   }
   // 渲染组件
   async render () {
+    // debug
+    return await this.renderMedium()
+    if (config.widgetFamily === 'medium') {
+      return await this.renderMedium()
+    } else if (config.widgetFamily === 'large') {
+      return await this.renderSmall()
+    } else {
+      return await this.renderSmall()
+    }
+  }
+  async renderSmall () {
     let w = new ListWidget()
     let data = await this.getData()
     let topic = data[0]
@@ -31,6 +42,41 @@ class Im3xWidget {
     footer.font = Font.lightSystemFont(10)
     footer.textColor = Color.white()
     footer.textOpacity = 0.5
+    return w
+  }
+  // 中尺寸组件
+  async renderMedium () {
+    let w = new ListWidget()
+    let data = await this.getData()
+    let topic = data[0]
+    w.url = topic['url']
+    w = await this.renderHeader(w)
+
+    // 左侧，用户头像
+    let body = w.addStack()
+    let avatar = body.addStack()
+    body.addSpacer(20)
+    let content = body.addStack()
+    content.layoutVertically()
+    let _avatar = avatar.addImage(await this.getImage(topic['member']['avatar_large'].split('?')[0]))
+    _avatar.imageSize = new Size(80, 80)
+    _avatar.cornerRadius = 80
+
+    let title = content.addText(topic['title'])
+    title.font = Font.lightSystemFont(16)
+    title.textColor = Color.white()
+    content.addSpacer(10)
+    let footer = content.addText(`@${topic['member']['username']} / ${topic['node']['title']}`)
+    footer.font = Font.lightSystemFont(10)
+    footer.textColor = Color.white()
+    footer.textOpacity = 0.5
+
+    let bg = new LinearGradient()
+    bg.locations = [0, 1]
+    bg.colors = [new Color('141414'), new Color('13233F')]
+
+    w.backgroundGradient = bg
+
     return w
   }
   async renderHeader (widget) {
@@ -79,7 +125,7 @@ class Im3xWidget {
   async test () {
     if (config.runsInWidget) return
     let widget = await this.render()
-    widget.presentSmall()
+    widget.presentMedium()
   }
   // 单独运行
   async init () {
@@ -91,3 +137,4 @@ class Im3xWidget {
 }
 
 module.exports = Im3xWidget
+await new Im3xWidget().test()
