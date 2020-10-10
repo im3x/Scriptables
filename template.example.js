@@ -1,5 +1,6 @@
 //
 // 通用框架插件模版代码
+// 项目地址：https://github.com/im3x/Scriptables
 //
 
 class Im3xWidget {
@@ -28,5 +29,3 @@ class Im3xWidget {
 }
 
 module.exports = Im3xWidget
-new Im3xWidget().test()
-new Im3xWidget().init()
