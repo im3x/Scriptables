@@ -91,11 +91,9 @@ class Im3xLoader {
     Keychain.set(key, 'ok')
   }
   async update () {
-    console.log('[check update..]')
     let req = new Request(`https://gitee.com/api/v5/repos/im3x/Scriptables/commits?path=loader.${this.git}.js&page=1&per_page=1`)
     let res = await req.loadJSON()
     let commit = res[0]
-    console.log(commit)
     let key = `im3x_loader_${this.git}_update_${commit['sha']}`
     if (Keychain.contains(key)) return
     // 加载远程代码内容
@@ -110,7 +108,6 @@ class Im3xLoader {
     let new_code = `${tmp[0]}\n${tmp[1]}\n${tmp[2]}\n${res1}`
     // 写入文件
     FileManager.local().writeString(self, new_code)
-    console.log("[update ok]")
     Keychain.set(key, "ok")
   }
 }
