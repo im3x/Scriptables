@@ -1,4 +1,3 @@
-
 //
 // scriptable 加载器
 // 用于加载远程 scriptable 桌面组件插件
@@ -29,6 +28,7 @@ class Im3xLoader {
     // 缓存路径
     this.filename = `${this.opt['name']}@${this.opt['version']}.js.im3x`
     this.filepath = FileManager.local().documentsDirectory() + '/' + this.filename
+    this.notify()
   }
 
   async init () {
@@ -73,6 +73,21 @@ class Im3xLoader {
     let m = new M(this.opt['args'])
     let w = await m.render()
     return w
+  }
+  
+  async notify () {
+    let req = new Request(`https://${this.git}.com/im3x/Scriptables/raw/main/update.notify.json`)
+    let res = await req.loadJSON()
+    if (!res || !res['id']) return
+    // 判断是否已经通知过
+    let key = `im3x_notify_${res['id']}`
+    if (Keychain.get(key) === 'ok') return
+    // 通知
+    let n = new Notification()
+    n = Object.assign(n, res)
+    n.schedule()
+    // 设置已通知
+    Keychain.set(key, 'ok')
   }
 }
 const Loader = new Im3xLoader()
