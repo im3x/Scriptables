@@ -6,7 +6,7 @@ iOS14桌面组件神器（Scriptable）原创框架，脚本开发教程、精�
 
 # 快速使用
 1. iPhone 上下载 [Scriptable](https://apps.apple.com/cn/app/scriptable/id1405459188) App（确保你的系统已更新为 iOS14+）    
-2. Safari点击下载：[GitHub版源](https://im3x.cn/scriptables/Loader.Github.scriptable)、[国内Gitee源](https://im3x.cn/scriptables/Loader.Gitee.scriptable)，然后点击下载的文件，用`Scriptable` App打开
+2. Safari点击下载：[国内Gitee源，推荐](https://im3x.cn/scriptables/Loader.Gitee.scriptable)、[GitHub版源](https://im3x.cn/scriptables/Loader.Github.scriptable)，然后点击下载的文件，用`Scriptable` App打开
 2. 手动版：打开App，点击右上角 + 号，复制项目中对应的 [loader.github.js](loader.github.js) 或 [loader.gitee.js](loader.gitee.js) 代码    
 3. 长按桌面，添加组件，选择 `Scriptable`，然后点击组件配置，选择刚刚保存的脚本，下方的参数格式为：`插件名@版本号:自定义参数`     
 例如，我要显示`one`每日图文组件，配置下方输入`one`或`one@latest`即可（显示昨天的文章输入配置`one:1`，依次类推）。    
