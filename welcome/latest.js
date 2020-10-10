@@ -37,6 +37,8 @@ class Im3xWidget {
   }
 }
 
+if (!Script.loader) {
+  new Im3xWidget().test()
+  new Im3xWidget().init()
+}
 module.exports = Im3xWidget
-new Im3xWidget().test()
-new Im3xWidget().init()
