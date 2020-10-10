@@ -1,6 +1,7 @@
 # Scriptables
 iOS14桌面组件神器（Scriptable）原创脚本分享（[国内 Gitee 仓库地址](https://gitee.com/im3x/Scriptables)），喜欢请给🌟，欢迎一起添加完善 ❤️    
-> 仅需一行代码，就能让你拥有丰富的iOS桌面组件！
+> 仅需一行代码，就能让你拥有丰富的iOS桌面组件！   
+> **注意⚠️： 目前该项目处于试验性开发阶段，还尚未可稳定使用**
 
 # 快速使用
 1. 手机上下载 [Scriptable](https://scriptable.app/) App    
