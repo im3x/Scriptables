@@ -41,7 +41,7 @@ iOS14桌面组件神器（Scriptable）原创框架，脚本开发教程、精�
 插件代码，请直接复制项目中的`template.sample.js`模板编辑
 
 ## 教程系列
-> 【古人云】公众号集合文章：[#scriptable](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzI5NTIwMDQxOA==&action=getalbum&album_id=1546917207903928321&scene=173#wechat_redirect)
+> 公众号集合文章：[#scriptable](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzI5NTIwMDQxOA==&action=getalbum&album_id=1546917207903928321&scene=173#wechat_redirect)
 
 1. [Scriptable 神器试玩，创建一个显示自定义标题内容的 iOS14桌面组件](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484293&idx=1&sn=128fd10f72e8bf0778d9e7575fa85c4a&chksm=ec567048db21f95eb223ad4504405de12612b94f5caa4c4cd611c448ee3b374a059d66c7acbe&scene=178#rd)
 2. [Scriptable 神器实战2 —— 给桌面组件添加自定义背景图片](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484299&idx=1&sn=cddb9bc6af87eb8b63fb2b893e382111&chksm=ec567046db21f950b700d5845fe3778099c3888983ffd0a173f3f2dde7092bf3f862161add90&scene=178#rd)
