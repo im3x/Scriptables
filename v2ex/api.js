@@ -6,21 +6,21 @@
 // 参数列表：
 // v2ex@api:hot
 // v2ex@api:latest（默认）
+// 
 
 class Im3xWidget {
   // 初始化，接收参数
   constructor (arg) {
     this.arg = 'latest'
+    this.widgetSize = config.widgetFamily
     if (arg === 'hot') this.arg = 'hot'
   }
   // 渲染组件
   async render () {
-    // debug
-    return await this.renderMedium()
-    if (config.widgetFamily === 'medium') {
+    if (this.widgetSize === 'medium') {
       return await this.renderMedium()
-    } else if (config.widgetFamily === 'large') {
-      return await this.renderSmall()
+    } else if (this.widgetSize === 'large') {
+      return await this.renderLarge()
     } else {
       return await this.renderSmall()
     }
@@ -35,7 +35,7 @@ class Im3xWidget {
     content.font = Font.lightSystemFont(16)
     content.textColor = Color.white()
 
-    w.backgroundImage = await this.shadowImage(await this.getImage(topic['member']['avatar_large']))
+    w.backgroundImage = await this.shadowImage(await this.getImage(topic['member']['avatar_large'].replace('mini', 'large')))
 
     w.addSpacer(10)
     let footer = w.addText(`@${topic['member']['username']} / ${topic['node']['title']}`)
@@ -51,16 +51,46 @@ class Im3xWidget {
     let topic = data[0]
     w.url = topic['url']
     w = await this.renderHeader(w)
+    w = await this.renderMediumBody(w, topic)
+    let bg = new LinearGradient()
+    bg.locations = [0, 1]
+    bg.colors = [new Color('141414'), new Color('13233F')]
 
+    w.backgroundGradient = bg
+
+    return w
+  }
+  // 大尺寸组件
+  async renderLarge () {
+    let w = new ListWidget()
+    let data = await this.getData()
+    let topic = data[0]
+    // w.url = topic['url']
+    w = await this.renderHeader(w)
+    w = await this.renderMediumBody(w, topic)
+    w.addSpacer(10)
+    w = await this.renderMediumBody(w, data[1])
+    w.addSpacer(10)
+    w = await this.renderMediumBody(w, data[2])
+    let bg = new LinearGradient()
+    bg.locations = [0, 1]
+    bg.colors = [new Color('141414'), new Color('13233F')]
+
+    w.backgroundGradient = bg
+
+    return w
+  }
+  async renderMediumBody (widget, topic) {
     // 左侧，用户头像
-    let body = w.addStack()
+    let body = widget.addStack()
+    body.url = topic['url']
     let avatar = body.addStack()
     body.addSpacer(20)
     let content = body.addStack()
     content.layoutVertically()
     let _avatar = avatar.addImage(await this.getImage(topic['member']['avatar_large'].split('?')[0]))
     _avatar.imageSize = new Size(80, 80)
-    _avatar.cornerRadius = 80
+    _avatar.cornerRadius = 40
 
     let title = content.addText(topic['title'])
     title.font = Font.lightSystemFont(16)
@@ -71,13 +101,7 @@ class Im3xWidget {
     footer.textColor = Color.white()
     footer.textOpacity = 0.5
 
-    let bg = new LinearGradient()
-    bg.locations = [0, 1]
-    bg.colors = [new Color('141414'), new Color('13233F')]
-
-    w.backgroundGradient = bg
-
-    return w
+    return widget
   }
   async renderHeader (widget) {
     let _icon = await this.getImage("https://www.v2ex.com/static/img/icon_rayps_64.png")
@@ -98,6 +122,8 @@ class Im3xWidget {
   }
   // 获取远程图片
   async getImage (url) {
+    console.log('get-image')
+    console.log(url)
     let req = new Request(url)
     return await req.loadImage()
   }
@@ -124,8 +150,15 @@ class Im3xWidget {
   // 用于测试
   async test () {
     if (config.runsInWidget) return
-    let widget = await this.render()
-    widget.presentMedium()
+    this.widgetSize = 'small'
+    let w1 = await this.render()
+    await w1.presentSmall()
+    this.widgetSize = 'medium'
+    let w2 = await this.render()
+    await w2.presentMedium()
+    this.widgetSize = 'large'
+    let w3 = await this.render()
+    await w3.presentLarge()
   }
   // 单独运行
   async init () {
