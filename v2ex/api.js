@@ -137,4 +137,3 @@ class Im3xWidget {
 }
 
 module.exports = Im3xWidget
-await new Im3xWidget().test()
