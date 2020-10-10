@@ -9,6 +9,8 @@
 class Im3xWidget {
   // 初始化，接收参数
   constructor (arg) {
+    console.log('init.arg=')
+    console.log(arg)
     this.arg = parseInt(arg)
     if (!Number.isInteger(this.arg)) this.arg = 0
   }
@@ -126,6 +128,7 @@ class Im3xWidget {
     const req2 = new Request(API2)
     const res2 = await req2.loadJSON()
     const data = res2["data"]
+    console.log('arg====')
 
     return data ? data[this.arg] : false
   }
@@ -164,8 +167,4 @@ class Im3xWidget {
   }
 }
 
-if (!Script.loader) {
-  new Im3xWidget().test()
-  new Im3xWidget().init()
-}
 module.exports = Im3xWidget
