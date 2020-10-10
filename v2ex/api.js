@@ -6,7 +6,6 @@
 // 参数列表：
 // v2ex@api:hot
 // v2ex@api:latest（默认）
-//
 
 class Im3xWidget {
   // 初始化，接收参数
@@ -19,6 +18,7 @@ class Im3xWidget {
     let w = new ListWidget()
     let data = await this.getData()
     let topic = data[0]
+    w.url = topic['url']
     w = await this.renderHeader(w)
     let content = w.addText(topic['title'])
     content.font = Font.lightSystemFont(16)
@@ -27,22 +27,24 @@ class Im3xWidget {
     w.backgroundImage = await this.shadowImage(await this.getImage(topic['member']['avatar_large']))
 
     w.addSpacer(10)
-    let footer = w.addText(`${topic['node']['title']} / @${topic['member']['username']}`)
-    footer.font = Font.lightSystemFont(12)
+    let footer = w.addText(`@${topic['member']['username']} / ${topic['node']['title']}`)
+    footer.font = Font.lightSystemFont(10)
+    footer.textColor = Color.white()
+    footer.textOpacity = 0.5
     return w
   }
   async renderHeader (widget) {
     let _icon = await this.getImage("https://www.v2ex.com/static/img/icon_rayps_64.png")
-    let _title = "V2EX·" + this.arg.toUpperCase()
+    let _title = "V2EX·" + (this.arg === 'hot' ? '最热' : '最新')
 
     let header = widget.addStack()
     let icon = header.addImage(_icon)
-    icon.imageSize = new Size(15, 15)
+    icon.imageSize = new Size(13, 13)
     header.addSpacer(10)
     let title = header.addText(_title)
     title.textColor = Color.white()
-    title.textOpacity = 0.8
-    title.font = Font.boldSystemFont(14)
+    title.textOpacity = 0.7
+    title.font = Font.boldSystemFont(12)
     
     widget.addSpacer(15)
 
