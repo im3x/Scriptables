@@ -1,6 +1,9 @@
 # Scriptables
 iOS14桌面组件神器（Scriptable）原创框架，脚本开发教程、精美作品分享！    
-（[国内 Gitee 仓库地址](https://gitee.com/im3x/Scriptables)），喜欢烦请给个🌟，欢迎一起添加完善 ❤️    
+本项目的框架和插件代码，都是本人手机上一个一个字符屏幕敲出来，一行一行代码调试的用心作品    
+如果能得到您的喜欢，欢迎点个 ★ Star ★ 给予小支持，感谢您的使用，也同时欢迎大家一起参与改进完善 ❤️    
+
+（[国内 Gitee 仓库地址](https://gitee.com/im3x/Scriptables)）
 
 ![screenshot.jpg](https://i.loli.net/2020/10/10/6tLnwuzBrk3qxGd.jpg)
 
@@ -10,7 +13,8 @@ iOS14桌面组件神器（Scriptable）原创框架，脚本开发教程、精�
 2. 手动版：打开App，点击右上角 + 号，复制项目中对应的 [loader.github.js](loader.github.js) 或 [loader.gitee.js](loader.gitee.js) 代码    
 3. 长按桌面，添加组件，选择 `Scriptable`，然后点击组件配置，选择刚刚保存的脚本，下方的参数格式为：`插件名@版本号:自定义参数`     
 例如，我要显示`one`每日图文组件，配置下方输入`one`或`one@latest`即可（显示昨天的文章输入配置`one:1`，依次类推）。    
-**更多插件的配置参数，请查阅插件目录的`README.md`说明    **
+
+**更多插件的配置参数，请查阅插件目录的`README.md`说明**
 
 ## 插件开发
 每一个项目，都创建一个文件夹，可以是中英文，最好不要有其他特殊符号。    
