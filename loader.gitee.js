@@ -81,21 +81,27 @@ class Im3xLoader {
     let res = await req.loadJSON()
     if (!res || !res['id']) return
     // 判断是否已经通知过
-    let key = `im3x_notify_${res['id']}`
-    if (Keychain.contains(key)) return
+    let key = 'im3x_loader_notify'
+    if (Keychain.contains(key)) {
+      let cache = Keychain.get(key)
+      if (cache === res['id']) return
+    }
     // 通知
     let n = new Notification()
     n = Object.assign(n, res)
     n.schedule()
     // 设置已通知
-    Keychain.set(key, 'ok')
+    Keychain.set(key, res['id'])
   }
   async update () {
     let req = new Request(`https://gitee.com/api/v5/repos/im3x/Scriptables/commits?path=loader.${this.git}.js&page=1&per_page=1`)
     let res = await req.loadJSON()
     let commit = res[0]
-    let key = `im3x_loader_${this.git}_update_${commit['sha']}`
-    if (Keychain.contains(key)) return
+    let key = 'im3x_loader_update'
+    if (Keychain.contains(key)) {
+      let cache = Keychain.get(key)
+      if (cache === commit['sha']) return
+    }
     // 加载远程代码内容
     let req1 = new Request(`https://gitee.com/im3x/Scriptables/raw/main/loader.${this.git}.js`)
     let res1 = await req1.loadString()
@@ -108,7 +114,7 @@ class Im3xLoader {
     let new_code = `${tmp[0]}\n${tmp[1]}\n${tmp[2]}\n${res1}`
     // 写入文件
     FileManager.local().writeString(self, new_code)
-    Keychain.set(key, "ok")
+    Keychain.set(key, commit['sha'])
   }
 }
 const Loader = new Im3xLoader('gitee')
