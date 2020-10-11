@@ -19,7 +19,7 @@ class Im3xWidget {
    */
   async render () {
     if (this.widgetSize === 'medium') {
-      return await this.renderMedium()
+      return await this.renderSmall()
     } else if (this.widgetSize === 'large') {
       return await this.renderLarge()
     } else {
@@ -65,7 +65,7 @@ class Im3xWidget {
    */
   async renderLarge () {
     let w = new ListWidget()
-    w.addText("Large")
+    w.addText("暂不支持该尺寸组件")
     return w
   }
 
