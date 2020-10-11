@@ -32,7 +32,7 @@ class Im3xWidget {
     let w = new ListWidget()
     w = await this.renderHeader(w)
     let data = await this.getData()
-    let content = w.addText(data['title'])
+    let content = w.addText(data)
     content.font = Font.lightSystemFont(14)
     return w
   }
@@ -63,10 +63,10 @@ class Im3xWidget {
   }
 
   async getData () {
-    let api = 'https://v1.alapi.cn/api/soul'
+    let api = 'https://api.qinor.cn/soup/'
     let req = new Request(api)
-    let res = await req.loadJSON()
-    return res['data']
+    let res = await req.loadString()
+    return res
   }
 
   /**
