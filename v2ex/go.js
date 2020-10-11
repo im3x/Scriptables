@@ -107,7 +107,7 @@ class Im3xWidget {
   }
   async renderHeader (widget) {
     let _icon = await this.getImage("https://www.v2ex.com/static/img/icon_rayps_64.png")
-    let _title = "V2EX / TAB"
+    let _title = "V2EX / 节点"
 
     let header = widget.addStack()
     let icon = header.addImage(_icon)
@@ -150,18 +150,20 @@ class Im3xWidget {
     let html = await req.loadString()
 
     // 解析html
-    let tmp = html.split(`<div id="Wrapper">`)[1].split(`<div class="inner" style="text-align: right;">`)[0]
-    let arr = tmp.split('<div class="cell item">')
+    let tmp = html.split(`<div id="Wrapper">`)[1].split(`<div class="sidebar_units">`)[0]
+    let arr = tmp.split(`<table cellpadding="0" cellspacing="0" border="0" width="100%">`)
+
+    let node_title = html.split('<title>')[1].split('</')[0]
     arr.shift()
+    arr.pop()
 
     let datas = []
     for (let i = 0; i < arr.length; i ++) {
       let t = arr[i]
       let title = t.split(`class="topic-link">`)[1].split('</a')[0]
       let avatar = t.split(`<img src="`)[1].split('"')[0]
-      let node = t.split(`<a class="node"`)[1].split('</a>')[0].split('>')[1]
-      let user = t.split(`<a class="node" href="`)[1].split('</strong>')[0].split('<strong>')[1].split('>')[1].split('</')[0]
-      let link = t.split(`<span class="item_title">`)[1].split('class="')[0].split('"')[1]
+      let user = t.split(`class="small fade"><strong>`)[1].split('</')[0]
+      let link = t.split(`<span class="item_title"><a href="`)[1].split('"')[0]
       datas.push({
         title,
         url: `https://www.v2ex.com${link}`,
@@ -170,7 +172,7 @@ class Im3xWidget {
           'avatar_large': avatar
         },
         node: {
-          title: node
+          title: node_title
         }
       })
     }
@@ -182,7 +184,7 @@ class Im3xWidget {
     if (config.runsInWidget) return
     this.widgetSize = 'small'
     let w1 = await this.render()
-    await w1.presentSmall()
+    return await w1.presentSmall()
     this.widgetSize = 'medium'
     let w2 = await this.render()
     await w2.presentMedium()
