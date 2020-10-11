@@ -48,15 +48,11 @@ class Im3xWidget {
   async renderMedium () {
     let w = new ListWidget()
     let data = await this.getData()
-    let topic = data[0]
-    w.url = topic['url']
-    w = await this.renderHeader(w)
-    w = await this.renderMediumBody(w, topic)
-    let bg = new LinearGradient()
-    bg.locations = [0, 1]
-    bg.colors = [new Color('141414'), new Color('13233F')]
-
-    w.backgroundGradient = bg
+    w = await this.renderHeader(w, false)
+    for (let i = 0; i < 2; i ++) {
+      w = await this.renderCell(w, data[i])
+      w.addSpacer(5)
+    }
 
     return w
   }
@@ -64,60 +60,57 @@ class Im3xWidget {
   async renderLarge () {
     let w = new ListWidget()
     let data = await this.getData()
-    let topic = data[0]
-    // w.url = topic['url']
-    w = await this.renderHeader(w)
-    w = await this.renderMediumBody(w, topic)
-    w.addSpacer(15)
-    w = await this.renderMediumBody(w, data[1])
-    w.addSpacer(15)
-    w = await this.renderMediumBody(w, data[2])
-    let bg = new LinearGradient()
-    bg.locations = [0, 1]
-    bg.colors = [new Color('141414'), new Color('13233F')]
-
-    w.backgroundGradient = bg
+    w = await this.renderHeader(w, false)
+    for (let i = 0; i < 5; i ++) {
+      w = await this.renderCell(w, data[i])
+      w.addSpacer(7)
+    }
 
     return w
   }
-  async renderMediumBody (widget, topic) {
-    // 左侧，用户头像
+  async renderCell (widget, topic) {
     let body = widget.addStack()
     body.url = topic['url']
-    let avatar = body.addStack()
-    body.addSpacer(20)
-    let content = body.addStack()
-    content.layoutVertically()
-    let _avatar = avatar.addImage(await this.getImage(topic['member']['avatar_large'].split('?')[0]))
-    _avatar.imageSize = new Size(80, 80)
-    _avatar.cornerRadius = 40
 
-    let title = content.addText(topic['title'])
-    title.font = Font.lightSystemFont(16)
-    title.textColor = Color.white()
-    content.addSpacer(10)
-    let footer = content.addText(`@${topic['member']['username']} / ${topic['node']['title']}`)
-    footer.font = Font.lightSystemFont(10)
-    footer.textColor = Color.white()
-    footer.textOpacity = 0.5
+    let left = body.addStack()
+    let avatar = left.addImage(await this.getImage(topic['member']['avatar_large']))
+    avatar.imageSize = new Size(35, 35)
+    avatar.cornerRadius = 5
+
+    body.addSpacer(10)
+
+    let right = body.addStack()
+    right.layoutVertically()
+    let content = right.addText(topic['title'])
+    content.font = Font.lightSystemFont(14)
+    content.lineLimit = 2
+
+    right.addSpacer(5)
+
+    let info = right.addText(`@${topic['member']['username']} / ${topic['node']['title']}`)
+    info.font = Font.lightSystemFont(10)
+    info.textOpacity = 0.6
+    info.lineLimit = 2
+
+    widget.addSpacer(10)
 
     return widget
   }
-  async renderHeader (widget) {
+  async renderHeader (widget, customStyle = true) {
     let _icon = await this.getImage("https://www.v2ex.com/static/img/icon_rayps_64.png")
     let _title = "V2EX·" + (this.arg === 'hot' ? '最热' : '最新')
 
     let header = widget.addStack()
+    header.centerAlignContent()
     let icon = header.addImage(_icon)
-    icon.imageSize = new Size(13, 13)
+    icon.imageSize = new Size(14, 14)
     header.addSpacer(10)
     let title = header.addText(_title)
-    title.textColor = Color.white()
+    if (customStyle) title.textColor = Color.white()
     title.textOpacity = 0.7
-    title.font = Font.boldSystemFont(12)
+    title.font = Font.boldSystemFont(14)
     
     widget.addSpacer(15)
-
     return widget
   }
   // 获取远程图片
@@ -125,7 +118,9 @@ class Im3xWidget {
     console.log('get-image')
     console.log(url)
     let req = new Request(url)
-    return await req.loadImage()
+    let img = await req.loadImage()
+    console.log('get.image.done')
+    return img
   }
   // 给图片加透明遮罩
   async shadowImage (img) {
@@ -170,3 +165,4 @@ class Im3xWidget {
 }
 
 module.exports = Im3xWidget
+// await new Im3xWidget().test()
