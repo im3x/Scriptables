@@ -10,4 +10,4 @@
 添加组件时，直接填写 `毒鸡汤` 即可
 
 # 参考资料
-[API](https://www.alapi.cn/doc/show/5.html)
+[API](https://api.qinor.cn/soup/)
