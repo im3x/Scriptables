@@ -28,6 +28,7 @@ iOS14桌面组件神器（Scriptable）原创框架，脚本开发教程、精�
 |[毒鸡汤](毒鸡汤/)|随机更新一条毒鸡汤|`毒鸡汤`|
 |[彩云天气](彩云天气/)|显示当前位置的天气预报情况|`彩云天气`|
 |[知乎日报](知乎日报/)|显示知乎日报文章信息|`知乎日报`|
+|[网易云音乐](网易云音乐/)|网易云音乐热评等｜`网易云音乐@热评`|
 
 ## 插件开发
 每一个项目，都创建一个文件夹，可以是中英文，最好不要有其他特殊符号。    
@@ -49,5 +50,6 @@ iOS14桌面组件神器（Scriptable）原创框架，脚本开发教程、精�
 4. [Scriptable 神器实战4 —— 获取桌面组件的大小以自动展示内容](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484324&idx=1&sn=b7bc2a4a513f719ce6e6423d03ba6803&chksm=ec567069db21f97ff3407d053aa708d408058c525d1cb9fc80a64ce9ca0e6b9133f4568a20e0&scene=178#rd)
 5. [Scriptable 神器实战5 —— 给桌面组件添加一个渐变色背景](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484331&idx=1&sn=82802dd0d11fee43587f71cac6ce6109&chksm=ec567066db21f970ac13bf9ff902cee43475919a9e136a16eb2766c9cef5a6518b6d14bcab57&scene=178#rd)
 6. [Scriptable神器实战6 —— 给背景图片加上半透明遮罩](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484345&idx=1&sn=7ebaa57bdf09ca5517b9ca58a12f88b8&chksm=ec567074db21f96234bd0591530b02c0c9bb3c951923fee19ebbb877e52aac56d5b8bd4d27af&scene=178#rd)
+7. [Scriptable神器实战7 —— 获取用户添加组件时的自定义参数](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484350&idx=1&sn=f4c5b25b2d9f7e66bdfbe9150e234864&chksm=ec567073db21f965a5164e2ab27bacfc2b246e4be31ca3a4f23fb96e9c5d543e4ac97310b7bc&token=1302596105&lang=zh_CN#rd)
 
 更多文章连载更新中..
