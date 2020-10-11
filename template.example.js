@@ -58,8 +58,9 @@ class Im3xWidget {
    */
   async renderHeader (widget, icon, title) {
     let header = widget.addStack()
+    header.centerAlignContent()
     let _icon = header.addImage(await this.getImage(icon))
-    _icon.imageSize = new Size(13, 13)
+    _icon.imageSize = new Size(14, 14)
     _icon.cornerRadius = 4
     header.addSpacer(10)
     let _title = header.addText(title)
