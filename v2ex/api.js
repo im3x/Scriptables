@@ -50,8 +50,8 @@ class Im3xWidget {
   async renderMedium () {
     let w = new ListWidget()
     let data = await this.getData()
+    w.addSpacer(10)
     w = await this.renderHeader(w, false)
-    w.addSpacer(5)
     for (let i = 0; i < 2; i ++) {
       w = await this.renderCell(w, data[i])
       w.addSpacer(5)
@@ -63,8 +63,8 @@ class Im3xWidget {
   async renderLarge () {
     let w = new ListWidget()
     let data = await this.getData()
+    w.addSpacer(10)
     w = await this.renderHeader(w, false)
-    w.addSpacer(5)
     for (let i = 0; i < 5; i ++) {
       w = await this.renderCell(w, data[i])
       w.addSpacer(10)
@@ -77,7 +77,7 @@ class Im3xWidget {
     body.url = topic['url']
 
     let left = body.addStack()
-    let avatar = left.addImage(await this.getImage(topic['member']['avatar_large']))
+    let avatar = left.addImage(await this.getImage(topic['member']['avatar_large'].replace('mini', 'large')))
     avatar.imageSize = new Size(35, 35)
     avatar.cornerRadius = 5
 
@@ -169,4 +169,7 @@ class Im3xWidget {
 }
 
 module.exports = Im3xWidget
+// 编辑器中测试
 // await new Im3xWidget().test()
+// 插件独立运行
+// await new Im3xWidget().init()
