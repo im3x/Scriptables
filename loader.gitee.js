@@ -43,7 +43,7 @@ class Im3xLoader {
       } catch(e){}
     }
     // 加载代码，存储
-    let req = new Request(`https://${this.git}.com/im3x/Scriptables/raw/main/${encodeURIComponent(this.opt['name'])}/${this.opt['version']}.js?_=${+new Date}`)
+    let req = new Request(`https://${this.git}.com/im3x/Scriptables/raw/main/${encodeURIComponent(this.opt['name'])}/${encodeURIComponent(this.opt['version'])}.js?_=${+new Date}`)
     let res = await req.loadString()
     // 如果404
     if (req.response['statusCode'] === 404) {
