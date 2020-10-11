@@ -1,7 +1,7 @@
+![](/v2ex/screenshot.jpg)
+
 # v2ex for scriptable
 > iOS14 桌面组件展示 v2ex 站点的文章，点击后跳转文章详情页面
-
-![](/v2ex/screenshot.jpg)
 
 ## 如何使用
 桌面添加组件，然后选择加载器，`Parameter` 参数中填写如下格式：
