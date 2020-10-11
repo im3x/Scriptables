@@ -51,6 +51,7 @@ class Im3xWidget {
     let w = new ListWidget()
     let data = await this.getData()
     w = await this.renderHeader(w, false)
+    w.addSpacer(5)
     for (let i = 0; i < 2; i ++) {
       w = await this.renderCell(w, data[i])
       w.addSpacer(5)
@@ -63,7 +64,7 @@ class Im3xWidget {
     let w = new ListWidget()
     let data = await this.getData()
     w = await this.renderHeader(w, false)
-    w.addSpacer(10)
+    w.addSpacer(5)
     for (let i = 0; i < 5; i ++) {
       w = await this.renderCell(w, data[i])
       w.addSpacer(10)
