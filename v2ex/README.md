@@ -23,6 +23,10 @@ Apple：`v2ex@tab:apple`
 全部：`v2ex@tab:all` （默认，也可以直接输入参数`v2ex@tab`）    
 R2：`v2ex@tab:r2`    
 
+## go 节点版本
+> 就是点击节点进入的界面，比如[分享创造](https://www.v2ex.com/go/create)，节点就是：`create`，对应参数：`v2ex@go:create`    
+
+各种节点参数请参考官方网站列表：https://www.v2ex.com/planes
 
 ## 如何使用
 桌面添加组件，然后选择加载器，`Parameter` 参数中填写如下格式：
