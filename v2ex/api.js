@@ -34,6 +34,7 @@ class Im3xWidget {
     let content = w.addText(topic['title'])
     content.font = Font.lightSystemFont(16)
     content.textColor = Color.white()
+    content.lineLimit = 3
 
     w.backgroundImage = await this.shadowImage(await this.getImage(topic['member']['avatar_large'].replace('mini', 'large')))
 
@@ -42,6 +43,7 @@ class Im3xWidget {
     footer.font = Font.lightSystemFont(10)
     footer.textColor = Color.white()
     footer.textOpacity = 0.5
+    footer.lineLimit = 1
     return w
   }
   // 中尺寸组件
@@ -61,9 +63,10 @@ class Im3xWidget {
     let w = new ListWidget()
     let data = await this.getData()
     w = await this.renderHeader(w, false)
+    w.addSpacer(10)
     for (let i = 0; i < 5; i ++) {
       w = await this.renderCell(w, data[i])
-      w.addSpacer(7)
+      w.addSpacer(10)
     }
 
     return w
