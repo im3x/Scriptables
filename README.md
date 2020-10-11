@@ -3,7 +3,9 @@ iOS14桌面组件神器（Scriptable）原创框架，脚本开发教程、精�
 本项目的框架和插件代码，都是本人手机上一个一个字符屏幕敲出来，一行一行代码调试的用心作品    
 如果能得到您的喜欢，欢迎点个 ★ Star ★ 给予小支持，感谢您的使用，也同时欢迎大家一起参与改进完善 ❤️    
 
-（[国内 Gitee 仓库地址](https://gitee.com/im3x/Scriptables)）
+[国内 Gitee 仓库地址](https://gitee.com/im3x/Scriptables)    
+
+👉 [点击查看 5 分钟演示视频](https://v.qq.com/txp/iframe/player.html?chid=17&vid=c31599njg4i&autoplay=true&full=true&show1080p=true)
 
 ![screenshot.jpg](https://i.loli.net/2020/10/10/6tLnwuzBrk3qxGd.jpg)
 
