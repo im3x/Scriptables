@@ -53,7 +53,10 @@ class Im3xWidget {
 
   async renderHeader (widget) {
     let header = widget.addStack()
-    let icon = header.addText("😂")
+    header.centerAlignContent()
+    let icon = header.addImage(await this.getImage('https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4088892283,480370796&fm=26&gp=0.jpg'))
+    icon.imageSize = new Size(14, 14)
+    icon.cornerRadius = 4
     header.addSpacer(10)
     let title = header.addText("毒鸡汤")
     title.font = Font.boldSystemFont(14)
