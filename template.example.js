@@ -30,7 +30,7 @@ class Im3xWidget {
    */
   async renderSmall () {
     let w = new ListWidget()
-    w.addText("Small")
+    w.addText("不支持尺寸")
     return w
   }
   /**
@@ -38,7 +38,7 @@ class Im3xWidget {
    */
   async renderMedium () {
     let w = new ListWidget()
-    w.addText("Medium")
+    w.addText("不支持尺寸")
     return w
   }
   /**
@@ -46,10 +46,37 @@ class Im3xWidget {
    */
   async renderLarge () {
     let w = new ListWidget()
-    w.addText("Large")
+    w.addText("不支持尺寸")
     return w
   }
 
+  /**
+   * 渲染标题
+   * @param widget 组件对象
+   * @param icon 图标url地址
+   * @param title 标题
+   */
+  async renderHeader (widget, icon, title) {
+    let header = widget.addStack()
+    let _icon = header.addImage(await this.getImage(icon))
+    _icon.imageSize = new Size(13, 13)
+    header.addSpacer(10)
+    let _title = header.addText(title)
+    _title.textColor = Color.white()
+    _title.textOpacity = 0.7
+    _title.font = Font.boldSystemFont(12)
+    widget.addSpacer(15)
+    return widget
+  }
+
+  /**
+   * 获取api数据
+   * @param api api地址
+   */
+  async getData (api) {
+    let req = new Request(api)
+    return await req.loadJSON()
+  }
   /**
    * 加载远程图片
    * @param url string 图片地址
