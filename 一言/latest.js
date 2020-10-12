@@ -76,7 +76,7 @@ class Im3xWidget {
                     .filter(c => args.indexOf(c) > -1)
                     .map(c => `c=${c}`)
                     .join('&') || 'c=k'
-    let api = `https://v1.hitokoto.cn/?${c}&encode=json`
+    let api = `https://v1.hitokoto.cn/?${types}&encode=json`
     let req = new Request(api)
     let res = await req.loadJSON()
     return res
