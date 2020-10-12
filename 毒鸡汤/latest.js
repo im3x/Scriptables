@@ -10,8 +10,8 @@ class Im3xWidget {
    */
   constructor (arg) {
     this.arg = arg
+    this.fileName = module.filename.split('Documents/')[1]
     this.widgetSize = config.widgetFamily
-    this.cacheKey = 'im3x_widget_cache_dujitang'
   }
   /**
    * 渲染组件
@@ -31,8 +31,8 @@ class Im3xWidget {
    */
   async renderSmall () {
     let w = new ListWidget()
-    w = await this.renderHeader(w)
-    let data = await this.getData()
+    w = await this.renderHeader(w, 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4088892283,480370796&fm=26&gp=0.jpg', '毒鸡汤')
+    let data = await this.getData('https://api.qinor.cn/soup/', false)
     if (!data) {
       data = '[数据加载失败]'
     }
@@ -44,52 +44,68 @@ class Im3xWidget {
    * 渲染中尺寸组件
    */
   async renderMedium () {
-    return await this.renderSmall()
+    let w = new ListWidget()
+    w.addText("不支持尺寸")
+    return w
   }
   /**
    * 渲染大尺寸组件
    */
   async renderLarge () {
-    return await this.renderSmall()
+    let w = new ListWidget()
+    w.addText("不支持尺寸")
+    return w
   }
 
-  async renderHeader (widget) {
+  /**
+   * 渲染标题
+   * @param widget 组件对象
+   * @param icon 图标url地址
+   * @param title 标题
+   */
+  async renderHeader (widget, icon, title) {
     let header = widget.addStack()
     header.centerAlignContent()
-    let icon = header.addImage(await this.getImage('https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4088892283,480370796&fm=26&gp=0.jpg'))
-    icon.imageSize = new Size(14, 14)
-    icon.cornerRadius = 4
+    let _icon = header.addImage(await this.getImage(icon))
+    _icon.imageSize = new Size(14, 14)
+    _icon.cornerRadius = 4
     header.addSpacer(10)
-    let title = header.addText("毒鸡汤")
-    title.font = Font.boldSystemFont(14)
-    title.textOpacity = 0.7
+    let _title = header.addText(title)
+    _title.textColor = Color.white()
+    _title.textOpacity = 0.7
+    _title.font = Font.boldSystemFont(12)
     widget.addSpacer(15)
     return widget
   }
 
-  async getData () {
+  /**
+   * 获取api数据
+   * @param api api地址
+   * @param json 接口数据是否是 json 格式，如果不是（纯text)，则传递 false
+   * @return 数据 || null
+   */
+  async getData (api, json = true) {
     let data = null
+    const cacheKey = `${this.fileName}_cache`
     try {
-      let api = 'https://api.qinor.cn/soup/'
       let req = new Request(api)
-      data = await req.loadString()
+      data = await (json ? req.loadJSON() : req.loadString())
     } catch (e) {}
-    // 判断数据是否为空
+    // 判断数据是否为空（加载失败）
     if (!data) {
       // 判断是否有缓存
-      if (Keychain.contains(this.cacheKey)) {
-        let cache = Keychain.get(this.cacheKey)
-        return cache
+      if (Keychain.contains(cacheKey)) {
+        let cache = Keychain.get(cacheKey)
+        return json ? JSON.parse(cache) : cache
       } else {
         // 刷新
-        return false
+        return null
       }
     }
     // 存储缓存
-    Keychain.set(this.cacheKey, data)
+    Keychain.set(cacheKey, json ? JSON.stringify(data) : data)
     return data
   }
-
   /**
    * 加载远程图片
    * @param url string 图片地址
@@ -154,7 +170,7 @@ class Im3xWidget {
 module.exports = Im3xWidget
 
 // 如果是在编辑器内编辑、运行、测试，则取消注释这行，便于调试：
-// await new Im3xWidget().test()
+// await new Im3xWidget('').test()
 
 // 如果是组件单独使用（桌面配置选择这个组件使用，则取消注释这一行：
 // await new Im3xWidget(args.widgetParameter).init()
