@@ -128,7 +128,7 @@ class Im3xLoader {
     Keychain.set(key, commit['sha'])
   }
 }
-const Loader = new Im3xLoader()
+const Loader = new Im3xLoader('gitee')
 const widget = await Loader.init()
 if (config.runsInWidget && widget) {
   Script.setWidget(widget)
