@@ -16,7 +16,7 @@ class Im3xWidget {
     try {
       this.arg = parseInt(arg)
     } catch (e) {}
-    if (this.arg === NaN || this.arg < 0 || this.arg > 50) this.arg = 0
+    if (!Number.isInteger(this.arg) || this.arg < 0 || this.arg > 50) this.arg = 0
     this.widgetSize = config.widgetFamily
   }
   // 渲染组件
