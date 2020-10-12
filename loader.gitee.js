@@ -78,6 +78,10 @@ class Im3xLoader {
   async render () {
     let M = importModule(this.filename)
     let m = new M(this.opt['args'])
+    if (!config.runsInWidget && m['runActions']) {
+      await m.runActions()
+      return false
+    }
     let w = await m.render()
     return w
   }
@@ -123,11 +127,9 @@ class Im3xLoader {
     Keychain.set(key, commit['sha'])
   }
 }
-const Loader = new Im3xLoader('gitee')
+const Loader = new Im3xLoader()
 const widget = await Loader.init()
-if (!config.runsInWidget) {
-  await widget.presentSmall()
-} else {
+if (config.runsInWidget && widget) {
   Script.setWidget(widget)
 }
 Script.complete()
