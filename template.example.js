@@ -51,6 +51,39 @@ class Im3xWidget {
     return w
   }
 
+    /**
+   * 用户传递的组件自定义点击操作
+   */
+  async runActions () {
+    let { act, data } = this.parseQuery()
+    if (!act) return
+  }
+
+  // 获取跳转自身 urlscheme
+  // w.url = this.getURIScheme("copy", "data-to-copy")
+  getURIScheme (act, data) {
+    let _raw = typeof data === 'object' ? JSON.stringify(data) : data
+    let _data = Data.fromString(_raw)
+    let _b64 = _data.toBase64String()
+    return `scriptable:///run?scriptName=${encodeURIComponent(Script.name())}&act=${act}&data=${_b64}`
+  }
+  // 解析 urlscheme 参数
+  // { act: "copy", data: "copy" }
+  parseQuery () {
+    const { act, data } = args['queryParameters']
+    if (!act) return { act }
+    let _data = Data.fromBase64String(data)
+    let _raw = _data.toRawString()
+    let result = _raw
+    try {
+      result = JSON.parse(_raw)
+    } catch (e) {}
+    return {
+      act,
+      data: result
+    }
+  }
+  
   /**
    * 渲染标题
    * @param widget 组件对象
