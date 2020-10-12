@@ -3,7 +3,7 @@
 // 用于加载远程 scriptable 桌面组件插件
 // author@im3x
 // 公众号@古人云
-// ver: 202010130300
+// ver: 202010130310
 // https://github.com/im3x/Scriptables
 //
 
@@ -128,7 +128,7 @@ class Im3xLoader {
     Keychain.set(key, commit['sha'])
   }
 }
-const Loader = new Im3xLoader('gitee')
+const Loader = new Im3xLoader()
 const widget = await Loader.init()
 if (config.runsInWidget && widget) {
   Script.setWidget(widget)
