@@ -3,7 +3,7 @@
 // 用于加载远程 scriptable 桌面组件插件
 // author@im3x
 // 公众号@古人云
-// ver: 202010130250
+// ver: 202010130300
 // https://github.com/im3x/Scriptables
 //
 
@@ -117,7 +117,7 @@ class Im3xLoader {
     let req1 = new Request(`https://gitee.com/im3x/Scriptables/raw/main/loader.${this.git}.js`)
     let res1 = await req1.loadString()
     // 当前脚本的路径
-    let self = FileManager.local().documentsDirectory() + "/" + Script.name() + ".js"
+    let self = module.filename
     // 读取前三行代码（包含图标信息）
     let selfContent = FileManager.local().readString(self)
     let tmp = selfContent.split("\n")
