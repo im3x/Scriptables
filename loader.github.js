@@ -43,31 +43,37 @@ class Im3xLoader {
       } catch(e){}
     }
     // 加载代码，存储
-    let req = new Request(`https://${this.git}.com/im3x/Scriptables/raw/main/${encodeURIComponent(this.opt['name'])}/${encodeURIComponent(this.opt['version'])}.js?_=${+new Date}`)
-    let res = await req.loadString()
-    // 如果404
-    if (req.response['statusCode'] === 404) {
-      widget = await this.render404()
-    } else {
-      await FileManager.local().writeString(this.filepath, res)
-      if (!rendered) {
-        widget = this.render()
+    try {
+      let req = new Request(`https://${this.git}.com/im3x/Scriptables/raw/main/${encodeURIComponent(this.opt['name'])}/${encodeURIComponent(this.opt['version'])}.js?_=${+new Date}`)
+      let data = await req.loadString()
+      // 如果404
+      if (req.response['statusCode'] === 404) {
+        return await this.renderFail('插件不存在')
       }
+      await FileManager.local().writeString(this.filepath, data)
+      if (!rendered) {
+        widget = await this.render()
+      }
+    } catch (e) {
+      // 网络加载失败，返回错误提示
+      // 如果已经渲染了（有本地缓存，直接返回本地代码）
+      if (rendered) return widget
+      return await this.renderFail(e.message)
     }
 
     return widget
-
   }
-  async render404 () {
-    let m = new ListWidget()
-    let t1 = m.addText("⚠️")
+  async renderFail (err) {
+    let w = new ListWidget()
+    let t1 = w.addText("⚠️")
     t1.centerAlignText()
-    m.addSpacer(10)
-    let t = m.addText("404")
-    t.textColor = Color.red()
-    t.centerAlignText()
-    m.url = 'https://github.com/im3x/Scriptables'
-    return m
+    w.addSpacer(10)
+    let t2 = w.addText(err)
+    t2.textColor = Color.red()
+    t2.font = Font.lightSystemFont(14)
+    t2.centerAlignText()
+    w.url = 'https://github.com/im3x/Scriptables'
+    return w
   }
   async render () {
     let M = importModule(this.filename)
