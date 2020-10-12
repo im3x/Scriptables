@@ -11,6 +11,7 @@ class Im3xWidget {
   constructor (arg) {
     this.arg = arg
     this.widgetSize = config.widgetFamily
+    this.cacheKey = 'im3x_widget_cache_dujitang'
   }
   /**
    * 渲染组件
@@ -32,6 +33,9 @@ class Im3xWidget {
     let w = new ListWidget()
     w = await this.renderHeader(w)
     let data = await this.getData()
+    if (!data) {
+      data = '[数据加载失败]'
+    }
     let content = w.addText(data)
     content.font = Font.lightSystemFont(14)
     return w
@@ -46,9 +50,7 @@ class Im3xWidget {
    * 渲染大尺寸组件
    */
   async renderLarge () {
-    let w = new ListWidget()
-    w.addText("不支持尺寸")
-    return w
+    return await this.renderSmall()
   }
 
   async renderHeader (widget) {
@@ -66,10 +68,26 @@ class Im3xWidget {
   }
 
   async getData () {
-    let api = 'https://api.qinor.cn/soup/'
-    let req = new Request(api)
-    let res = await req.loadString()
-    return res
+    let data = null
+    try {
+      let api = 'https://api.qinor.cn/soup/'
+      let req = new Request(api)
+      data = await req.loadString()
+    } catch (e) {}
+    // 判断数据是否为空
+    if (!data) {
+      // 判断是否有缓存
+      if (Keychain.contains(this.cacheKey)) {
+        let cache = Keychain.get(this.cacheKey)
+        return cache
+      } else {
+        // 刷新
+        return false
+      }
+    }
+    // 存储缓存
+    Keychain.set(this.cacheKey, data)
+    return data
   }
 
   /**
@@ -78,8 +96,16 @@ class Im3xWidget {
    * @return image
    */
   async getImage (url) {
-    let req = new Request(url)
-    return await req.loadImage()
+    try {
+      let req = new Request(url)
+      return await req.loadImage()
+    } catch (e) {
+      let ctx = new DrawContext()
+      ctx.size = new Size(100, 100)
+      ctx.setFillColor(Color.red())
+      ctx.fillRect(new Rect(0, 0, 100, 100))
+      return await ctx.getImage()
+    }
   }
 
   /**
