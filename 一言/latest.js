@@ -58,7 +58,7 @@ class Im3xWidget {
 
   async renderHeader (widget) {
     let header = widget.addStack()
-    let icon = header.addImage(await this.getImage('https://developer.hitokoto.cn/logo.png'))
+    let icon = header.addImage(await this.getImage('https://txc.gtimg.com/data/285778/2020/1012/f9cf50f08ebb8bd391a7118c8348f5d8.png'))
     icon.imageSize = new Size(15, 15)
     header.addSpacer(10)
     let title = header.addText("一言")
