@@ -71,9 +71,12 @@ class Im3xWidget {
   async getData () {
     // 句子类型，参考：https://developer.hitokoto.cn/sentence/#%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0
     // 备注：l 类型无法返回数据，故取消
-    let args = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k']
-    if (args.indexOf(this.arg) === -1) this.arg = 'k'
-    let api = `https://v1.hitokoto.cn/?c=${this.arg}&encode=json`
+    let args = 'abcdefghijk'
+    const types = this.arg.split('')
+                    .filter(c => args.indexOf(c) > -1)
+                    .map(c => `c=${c}`)
+                    .join('&') || 'c=k'
+    let api = `https://v1.hitokoto.cn/?${types}&encode=json`
     let req = new Request(api)
     let res = await req.loadJSON()
     return res
