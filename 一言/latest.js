@@ -8,7 +8,7 @@ class Im3xWidget {
    * 初始化
    * @param arg 外部传递过来的参数
    */
-  constructor (arg) {
+  constructor (arg = 'k') {
     this.arg = arg
     this.widgetSize = config.widgetFamily
   }
