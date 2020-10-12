@@ -81,7 +81,7 @@ class Im3xWidget {
     for (let i = 0; i < 5; i ++) {
       let topic = data[i];
       w = await this.renderCell(w, topic)
-      w.addSpacer(6)
+      w.addSpacer(8)
     }
 
     return w
@@ -102,7 +102,7 @@ class Im3xWidget {
     right.layoutVertically()
     let content = right.addText(topic['title'])
     content.font = Font.lightSystemFont(14)
-    content.lineLimit = 2
+    content.lineLimit = 1
 
     right.addSpacer(5)
 
