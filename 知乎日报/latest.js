@@ -33,20 +33,23 @@ class Im3xWidget {
   async renderSmall () {
     let w = new ListWidget()
     let data = await this.getOneData()
-    let title = w.addText("{ 知乎日报 }")
-    title.font = Font.boldSystemFont(14)
-    title.textColor = Color.white()
-    title.textOpacity = 0.7
-    w.addSpacer(20)
+//     let title = w.addText("{ 知乎日报 }")
+//     title.font = Font.boldSystemFont(14)
+//     title.textColor = Color.white()
+//     title.textOpacity = 0.7
+//     w.addSpacer(20)
+    w = await this.renderHeader(w, "https://txc.gtimg.com/data/285778/2020/1012/21d6a07d471112e25bebf555f1a155d4.jpeg", "知乎日报")
     let content = w.addText(data['title'])
     content.font = Font.lightSystemFont(16)
     content.textColor = Color.white()
+    content.lineLimit = 3
 
     w.addSpacer(10)
     let footer = w.addText(data['hint'])
     footer.font = Font.lightSystemFont(10)
-    footer.color = Color.white()
+    footer.textColor = Color.white()
     footer.textOpacity = 0.5
+    footer.lineLimit = 1
 
     w.backgroundImage = await this.shadowImage(await this.getImage(data['images'][0]))
     w.url = data['url']
@@ -139,6 +142,27 @@ class Im3xWidget {
     await w3.presentLarge()
   }
   
+  /**
+   * 渲染标题
+   * @param widget 组件对象
+   * @param icon 图标url地址
+   * @param title 标题
+   */
+  async renderHeader (widget, icon, title) {
+    let header = widget.addStack()
+    header.centerAlignContent()
+    let _icon = header.addImage(await this.getImage(icon))
+    _icon.imageSize = new Size(14, 14)
+    _icon.cornerRadius = 4
+    header.addSpacer(10)
+    let _title = header.addText(title)
+    _title.textColor = Color.white()
+    _title.textOpacity = 0.7
+    _title.font = Font.boldSystemFont(14)
+    widget.addSpacer(15)
+    return widget
+  }
+
   /**
    * 组件单独在桌面运行时调用
    */
