@@ -1,5 +1,5 @@
 {
-  "id": "202010121700",
+  "id": false,
   "title": "[ im3x/Scriptables ]",
   "body": "新的组件发布：知乎热榜\n参数：zhihu",
   "openURL": "https://github.com/im3x/Scriptables/tree/main/zhihu",
