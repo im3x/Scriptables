@@ -182,6 +182,7 @@ class LotteryQuery {
                     }
                     var sjh = dom.addText(data[typeName]['sjh'])
                     sjh.font = Font.lightSystemFont(14)
+                    sjh.textColor = Color.white()
                     w.addSpacer(5)
                 }
                 if (i == 1 || i == 6) { //双色球、七乐彩
