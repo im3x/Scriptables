@@ -3,6 +3,7 @@
 // 用于加载远程 scriptable 桌面组件插件
 // author@im3x
 // 公众号@古人云
+// ver: 202010130250
 // https://github.com/im3x/Scriptables
 //
 
