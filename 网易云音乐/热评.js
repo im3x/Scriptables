@@ -13,13 +13,14 @@ class Im3xWidget {
   constructor (arg) {
     this.arg = arg
     this.widgetSize = config.widgetFamily
+    this.cacheKey = 'im3x_widget_music_126_data'
   }
   /**
    * 渲染组件
    */
   async render () {
     if (this.widgetSize === 'medium') {
-      return await this.renderSmall()
+      return await this.renderMedium()
     } else if (this.widgetSize === 'large') {
       return await this.renderLarge()
     } else {
@@ -56,9 +57,7 @@ class Im3xWidget {
    * 渲染中尺寸组件
    */
   async renderMedium () {
-    let w = new ListWidget()
-    w.addText("Medium")
-    return w
+    return await this.renderSmall()
   }
   /**
    * 渲染大尺寸组件
@@ -83,9 +82,25 @@ class Im3xWidget {
   }
 
   async getData () {
+    console.log('[get.data.start]')
     let api = 'https://api.66mz8.com/api/music.163.php?format=json'
     let req = new Request(api)
     let res = await req.loadJSON()
+    console.log('[get.data.done]')
+    console.log(res)
+    // 判断数据是否为空
+    if (!res['comments']) {
+      // 判断是否有缓存
+      if (Keychain.contains(this.cacheKey)) {
+        let data = JSON.parse(Keychain.get(this.cacheKey))
+        return data
+      } else {
+        // 刷新
+        return await this.getData()
+      }
+    }
+    // 存储缓存
+    Keychain.set(this.cacheKey, JSON.stringify(res))
     return res
   }
 
