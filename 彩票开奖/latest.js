@@ -153,7 +153,7 @@ class LotteryQuery {
                 extr.font = Font.lightSystemFont(14)
                 extr.textOpacity = 0.6
                 dom.addSpacer(10)
-                w.addSpacer(5)
+                w.addSpacer(3)
                 if (i == 0) { //大乐透
                     let dom = w.addStack()
                     dom.centerAlignContent()
@@ -169,7 +169,7 @@ class LotteryQuery {
                         blueball.textColor = Color.blue()
                         dom.addSpacer(15)
                     }
-                    w.addSpacer(5)
+                    w.addSpacer(3)
                 }
                 if (i == 2) { //福彩3D
                     let dom = w.addStack()
@@ -183,7 +183,7 @@ class LotteryQuery {
                     var sjh = dom.addText(data[typeName]['sjh'])
                     sjh.font = Font.lightSystemFont(14)
                     sjh.textColor = Color.white()
-                    w.addSpacer(5)
+                    w.addSpacer(3)
                 }
                 if (i == 1 || i == 6) { //双色球、七乐彩
                     let dom = w.addStack()
@@ -200,7 +200,7 @@ class LotteryQuery {
                         blueball.textColor = Color.blue()
                         dom.addSpacer(15)
                     }
-                    w.addSpacer(5)
+                    w.addSpacer(3)
                 }
                 if (i == 3 || i == 4 || i == 5) { //排列3、排列5、七星彩
                     let dom = w.addStack()
@@ -211,7 +211,7 @@ class LotteryQuery {
                         redball.textColor = Color.red()
                         dom.addSpacer(15)
                     }
-                    w.addSpacer(5)
+                    w.addSpacer(3)
                 }
             }
             w.backgroundImage = await this.shadowImage(await this.getImage(await this.randomBackImg()))
@@ -324,4 +324,4 @@ module.exports = LotteryQuery
 // await new LotteryQuery().test()
 
 // 如果是组件单独使用（桌面配置选择这个组件使用，则取消注释这一行：
-await new LotteryQuery(args.widgetParameter).init()
+// await new LotteryQuery(args.widgetParameter).init()
