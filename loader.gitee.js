@@ -3,7 +3,7 @@
 // 用于加载远程 scriptable 桌面组件插件
 // author@im3x
 // 公众号@古人云
-// ver: 202010130310
+// ver: 202010131210
 // https://github.com/im3x/Scriptables
 //
 
@@ -11,6 +11,7 @@ class Im3xLoader {
   constructor (git = 'github') {
     // 仓库源
     this.git = git
+    this.ver = 202010131210
     // 解析参数
     this.opt = {
       name: 'welcome',
