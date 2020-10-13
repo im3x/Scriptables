@@ -13,13 +13,14 @@ class Im3xWidget {
   constructor (arg) {
     this.arg = arg
     this.widgetSize = config.widgetFamily
+    this.cacheKey = 'im3x_widget_music_126_data'
   }
   /**
    * 渲染组件
    */
   async render () {
     if (this.widgetSize === 'medium') {
-      return await this.renderSmall()
+      return await this.renderMedium()
     } else if (this.widgetSize === 'large') {
       return await this.renderLarge()
     } else {
@@ -33,6 +34,10 @@ class Im3xWidget {
   async renderSmall () {
     let w = new ListWidget()
     let data = await this.getData()
+    if (!data) {
+      w.addText("数据加载失败")
+      return w
+    }
     w = await this.renderHeader(w)
     w.addSpacer(20)
     let content = w.addText(data["comments"])
@@ -56,9 +61,7 @@ class Im3xWidget {
    * 渲染中尺寸组件
    */
   async renderMedium () {
-    let w = new ListWidget()
-    w.addText("Medium")
-    return w
+    return await this.renderSmall()
   }
   /**
    * 渲染大尺寸组件
@@ -73,6 +76,7 @@ class Im3xWidget {
     let header = widget.addStack()
     let icon = header.addImage(await this.getImage('https://s1.music.126.net/style/favicon.ico'))
     icon.imageSize = new Size(15, 15)
+    icon.cornerRadius = 2
     header.addSpacer(10)
     let title = header.addText("网易云热评")
     title.textColor = Color.white()
@@ -83,10 +87,26 @@ class Im3xWidget {
   }
 
   async getData () {
-    let api = 'https://api.66mz8.com/api/music.163.php?format=json'
-    let req = new Request(api)
-    let res = await req.loadJSON()
-    return res
+    let data = null
+    try {
+      let api = 'https://api.66mz8.com/api/music.163.php?format=json'
+      let req = new Request(api)
+      data = await req.loadJSON()
+    } catch (e) {}
+    // 判断数据是否为空
+    if (!data || !data['comments']) {
+      // 判断是否有缓存
+      if (Keychain.contains(this.cacheKey)) {
+        let cache = JSON.parse(Keychain.get(this.cacheKey))
+        return cache
+      } else {
+        // 刷新
+        return false
+      }
+    }
+    // 存储缓存
+    Keychain.set(this.cacheKey, JSON.stringify(data))
+    return data
   }
 
   /**
@@ -95,8 +115,16 @@ class Im3xWidget {
    * @return image
    */
   async getImage (url) {
-    let req = new Request(url)
-    return await req.loadImage()
+    try {
+      let req = new Request(url)
+      return await req.loadImage()
+    } catch (e) {
+      let ctx = new DrawContext()
+      ctx.size = new Size(100, 100)
+      ctx.setFillColor(Color.red())
+      ctx.fillRect(new Rect(0, 0, 100, 100))
+      return await ctx.getImage()
+    }
   }
 
   /**

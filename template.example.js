@@ -10,6 +10,7 @@ class Im3xWidget {
    */
   constructor (arg) {
     this.arg = arg
+    this.fileName = module.filename.split('Documents/')[1]
     this.widgetSize = config.widgetFamily
   }
   /**
@@ -50,6 +51,39 @@ class Im3xWidget {
     return w
   }
 
+    /**
+   * 用户传递的组件自定义点击操作
+   */
+  async runActions () {
+    let { act, data } = this.parseQuery()
+    if (!act) return
+  }
+
+  // 获取跳转自身 urlscheme
+  // w.url = this.getURIScheme("copy", "data-to-copy")
+  getURIScheme (act, data) {
+    let _raw = typeof data === 'object' ? JSON.stringify(data) : data
+    let _data = Data.fromString(_raw)
+    let _b64 = _data.toBase64String()
+    return `scriptable:///run?scriptName=${encodeURIComponent(Script.name())}&act=${act}&data=${_b64}`
+  }
+  // 解析 urlscheme 参数
+  // { act: "copy", data: "copy" }
+  parseQuery () {
+    const { act, data } = args['queryParameters']
+    if (!act) return { act }
+    let _data = Data.fromBase64String(data)
+    let _raw = _data.toRawString()
+    let result = _raw
+    try {
+      result = JSON.parse(_raw)
+    } catch (e) {}
+    return {
+      act,
+      data: result
+    }
+  }
+  
   /**
    * 渲染标题
    * @param widget 组件对象
@@ -74,10 +108,30 @@ class Im3xWidget {
   /**
    * 获取api数据
    * @param api api地址
+   * @param json 接口数据是否是 json 格式，如果不是（纯text)，则传递 false
+   * @return 数据 || null
    */
-  async getData (api) {
-    let req = new Request(api)
-    return await req.loadJSON()
+  async getData (api, json = true) {
+    let data = null
+    const cacheKey = `${this.fileName}_cache`
+    try {
+      let req = new Request(api)
+      data = await (json ? req.loadJSON() : req.loadString())
+    } catch (e) {}
+    // 判断数据是否为空（加载失败）
+    if (!data) {
+      // 判断是否有缓存
+      if (Keychain.contains(cacheKey)) {
+        let cache = Keychain.get(cacheKey)
+        return json ? JSON.parse(cache) : cache
+      } else {
+        // 刷新
+        return null
+      }
+    }
+    // 存储缓存
+    Keychain.set(cacheKey, json ? JSON.stringify(data) : data)
+    return data
   }
   /**
    * 加载远程图片
@@ -85,8 +139,16 @@ class Im3xWidget {
    * @return image
    */
   async getImage (url) {
-    let req = new Request(url)
-    return await req.loadImage()
+    try {
+      let req = new Request(url)
+      return await req.loadImage()
+    } catch (e) {
+      let ctx = new DrawContext()
+      ctx.size = new Size(100, 100)
+      ctx.setFillColor(Color.red())
+      ctx.fillRect(new Rect(0, 0, 100, 100))
+      return await ctx.getImage()
+    }
   }
 
   /**
@@ -135,7 +197,7 @@ class Im3xWidget {
 module.exports = Im3xWidget
 
 // 如果是在编辑器内编辑、运行、测试，则取消注释这行，便于调试：
-// await new Im3xWidget().test()
+// await new Im3xWidget('').test()
 
 // 如果是组件单独使用（桌面配置选择这个组件使用，则取消注释这一行：
 // await new Im3xWidget(args.widgetParameter).init()
