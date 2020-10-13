@@ -11,15 +11,16 @@ class Im3xLoader {
   constructor (git = 'github') {
     // 仓库源
     this.git = git
-    this.ver = 202010131210
+    this.ver = 202010131540
     // 解析参数
     this.opt = {
       name: 'welcome',
       args: '',
       version: 'latest'
     }
-    if (args.widgetParameter) {
-      let _args = args.widgetParameter.split(":")
+    let arg = args.widgetParameter || args['queryParameters']['__widget__']
+    if (arg) {
+      let _args = arg.split(":")
       let _plug = _args[0].split("@")
       if (_plug.length === 2) {
         this.opt['version'] = _plug[1]
@@ -82,11 +83,16 @@ class Im3xLoader {
   async render () {
     let M = importModule(this.filename)
     let m = new M(this.opt['args'], this)
-    if (!config.runsInWidget && m['runActions']) {
+    if (!config.runsInWidget && typeof m['runActions'] === 'function') {
       try {
         let func = m.runActions.bind(m)
-        func()
-      } catch (e) {}
+        await func()
+      } catch (e) {
+        let alert = new Alert()
+        alert.title = "执行失败"
+        alert.message = e.message
+        alert.presentAlert()
+      }
       return false
     }
     let w = await m.render()
