@@ -8,8 +8,9 @@ class Im3xWidget {
    * 初始化
    * @param arg 外部传递过来的参数
    */
-  constructor (arg) {
+  constructor (arg, loader) {
     this.arg = arg
+    this.loader = loader
     this.fileName = module.filename.split('Documents/')[1]
     this.widgetSize = config.widgetFamily
   }
@@ -200,4 +201,4 @@ module.exports = Im3xWidget
 // await new Im3xWidget('').test()
 
 // 如果是组件单独使用（桌面配置选择这个组件使用，则取消注释这一行：
-// await new Im3xWidget(args.widgetParameter).init()
+// await new Im3xWidget(args.widgetParameter, true).init()
