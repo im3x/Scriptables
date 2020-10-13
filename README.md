@@ -7,7 +7,7 @@ iOS14桌面组件神器（Scriptable）原创框架，脚本开发教程、精�
 
 👉 [点击查看 5 分钟演示视频](https://v.qq.com/txp/iframe/player.html?chid=17&vid=c31599njg4i&autoplay=true&full=true&show1080p=true)
 
-![screenshot.jpg](https://i.loli.net/2020/10/10/6tLnwuzBrk3qxGd.jpg)
+![screenshot.jpg](https://i.loli.net/2020/10/13/cD6f3zIs1Cnq2Tv.jpg)
 
 # 快速使用
 1. iPhone 上下载 [Scriptable](https://apps.apple.com/cn/app/scriptable/id1405459188) App（确保你的系统已更新为 iOS14+）    
