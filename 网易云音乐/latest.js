@@ -33,28 +33,26 @@ class Im3xWidget {
    */
   async renderSmall () {
     let w = new ListWidget()
-    let data = await this.getData()
+    let data = await this.getData2()
     if (!data) {
       w.addText("数据加载失败")
       return w
     }
-    w = await this.renderHeader(w)
-    w.addSpacer(20)
-    let content = w.addText(data["comments"])
+    w = await this.renderHeader(w, 'https://s1.music.126.net/style/favicon.ico', '网易云热评')
+    let content = w.addText(data["content"])
     content.textColor = Color.white()
     content.font = Font.lightSystemFont(16)
     w.backgroundColor = Color.black()
-    w.backgroundImage = await this.shadowImage(await this.getImage(data['music_pic']))
+    w.backgroundImage = await this.shadowImage(await this.getImage(data['pic']))
 
     w.addSpacer(10)
-    let footer = w.addText("—— 《" + data['name'] + '》')
+    let footer = w.addText("—— @" + data['user'])
     footer.rightAlignText()
-    footer.font = Font.lightSystemFont(10)
+    footer.font = Font.lightSystemFont(12)
     footer.textColor = Color.white()
-    footer.textOpacity = 0.5
+    footer.textOpacity = 0.6
 
-    let music_id = data['music_url'].split('id=')[1].split('.')[0]
-    w.url = 'orpheus://song/' + music_id
+    w.url = 'orpheus://song/' + data['id']
     return w
   }
   /**
@@ -67,23 +65,51 @@ class Im3xWidget {
    * 渲染大尺寸组件
    */
   async renderLarge () {
-    let w = new ListWidget()
-    w.addText("暂不支持该尺寸组件")
-    return w
+    return await this.renderSmall()
   }
 
-  async renderHeader (widget) {
+  /**
+   * 渲染标题
+   * @param widget 组件对象
+   * @param icon 图标url地址
+   * @param title 标题
+   */
+  async renderHeader (widget, icon, title) {
     let header = widget.addStack()
-    let icon = header.addImage(await this.getImage('https://s1.music.126.net/style/favicon.ico'))
-    icon.imageSize = new Size(15, 15)
-    icon.cornerRadius = 2
+    header.centerAlignContent()
+    let _icon = header.addImage(await this.getImage(icon))
+    _icon.imageSize = new Size(14, 14)
+    _icon.cornerRadius = 4
     header.addSpacer(10)
-    let title = header.addText("网易云热评")
-    title.textColor = Color.white()
-    title.textOpacity = 0.7
-    title.font = Font.lightSystemFont(14)
-
+    let _title = header.addText(title)
+    _title.textColor = Color.white()
+    _title.textOpacity = 0.7
+    _title.font = Font.boldSystemFont(12)
+    widget.addSpacer(15)
     return widget
+  }
+
+  async getData2 () {
+    let data = null
+    try {
+      let api = 'https://www.avg.cx/api/music/163-api.php'
+      let req = new Request(api)
+      data = await req.loadJSON()
+    } catch (e) {}
+    // 判断数据是否为空
+    if (!data || !data['id']) {
+      // 判断是否有缓存
+      if (Keychain.contains(this.cacheKey)) {
+        let cache = JSON.parse(Keychain.get(this.cacheKey))
+        return cache
+      } else {
+        // 刷新
+        return false
+      }
+    }
+    // 存储缓存
+    Keychain.set(this.cacheKey, JSON.stringify(data))
+    return data 
   }
 
   async getData () {
