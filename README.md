@@ -64,5 +64,7 @@ iOS14桌面组件神器（Scriptable）原创框架，脚本开发教程、精�
 5. [Scriptable 神器实战5 —— 给桌面组件添加一个渐变色背景](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484331&idx=1&sn=82802dd0d11fee43587f71cac6ce6109&chksm=ec567066db21f970ac13bf9ff902cee43475919a9e136a16eb2766c9cef5a6518b6d14bcab57&scene=178#rd)
 6. [Scriptable神器实战6 —— 给背景图片加上半透明遮罩](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484345&idx=1&sn=7ebaa57bdf09ca5517b9ca58a12f88b8&chksm=ec567074db21f96234bd0591530b02c0c9bb3c951923fee19ebbb877e52aac56d5b8bd4d27af&scene=178#rd)
 7. [Scriptable神器实战7 —— 获取用户添加组件时的自定义参数](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484350&idx=1&sn=f4c5b25b2d9f7e66bdfbe9150e234864&chksm=ec567073db21f965a5164e2ab27bacfc2b246e4be31ca3a4f23fb96e9c5d543e4ac97310b7bc&token=1302596105&lang=zh_CN#rd)
+8. **[Scriptable 实战之 —— 桌面组件交互之王](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484386&idx=1&sn=c88ddafedad97a3bcfed50f92d16ac5a&chksm=ec56702fdb21f939a3b45305a7a9056fd25bbcb41b69d6f9c7ced34ff46f5f32a913d40ba1ae&scene=178#rd)**.   
+9. [Scriptable神器实战 8 —— 本地存储 Keychain 用法](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484386&idx=2&sn=1b481bb66e0c373d8fd39dfede72575a&chksm=ec56702fdb21f939f07701aeead4375abc02450177565c96d937f9bfa0262ed12e378bca108a&scene=178#rd)
 
 更多文章连载更新中..
