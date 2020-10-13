@@ -67,4 +67,5 @@ iOS14桌面组件神器（Scriptable）原创框架，脚本开发教程、精�
 8. **[Scriptable 实战之 —— 桌面组件交互之王](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484386&idx=1&sn=c88ddafedad97a3bcfed50f92d16ac5a&chksm=ec56702fdb21f939a3b45305a7a9056fd25bbcb41b69d6f9c7ced34ff46f5f32a913d40ba1ae&scene=178#rd)**.   
 9. [Scriptable神器实战 8 —— 本地存储 Keychain 用法](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484386&idx=2&sn=1b481bb66e0c373d8fd39dfede72575a&chksm=ec56702fdb21f939f07701aeead4375abc02450177565c96d937f9bfa0262ed12e378bca108a&scene=178#rd)
 
-更多文章连载更新中..
+更多文章连载更新中，扫一扫关注【古人云】公众号，第一时间获取更新：    
+![](https://i.loli.net/2020/10/13/9hXdRNUg5qSreHk.jpg)
