@@ -217,7 +217,7 @@ class Im3xWidget {
    * 组件单独在桌面运行时调用
    */
   async init () {
-    if (!config.runsInWidget) return
+    if (!config.runsInWidget) return await this.runActions()
     let widget = await this.render()
     Script.setWidget(widget)
     Script.complete()
