@@ -8,8 +8,10 @@ class Im3xWidget {
    * 初始化
    * @param arg 外部传递过来的参数
    */
-  constructor (arg) {
+  constructor (arg, loader) {
     this.arg = arg
+    this.loader = loader
+    this.github = 'https://github.com/im3x/Scriptables'
     this.fileName = module.filename.split('Documents/')[1]
     this.widgetSize = config.widgetFamily
   }
@@ -34,9 +36,9 @@ class Im3xWidget {
     let t = w.addText("❤️\n你好\n点击查阅文档")
     t.centerAlignText()
     t.font = Font.lightSystemFont(14)
-    w.url = this.getURIScheme('open-url', {
-      url: 'https://github.com/im3x/Scriptables'
-    })
+    w.url = this.loader ? this.getURIScheme('open-url', {
+      url: this.github
+    }) : this.github
     return w
   }
   /**
