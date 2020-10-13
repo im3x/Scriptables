@@ -40,9 +40,11 @@ class Im3xLoader {
     let widget
     if (FileManager.local().fileExists(this.filepath)) {
       try {
-        widget = await this.render()
         rendered = true
-      } catch(e){}
+        widget = await this.render()
+      } catch(e){
+        rendered = false
+      }
     }
     // 加载代码，存储
     try {
@@ -81,7 +83,10 @@ class Im3xLoader {
     let M = importModule(this.filename)
     let m = new M(this.opt['args'], this)
     if (!config.runsInWidget && m['runActions']) {
-      await m.runActions()
+      try {
+        let func = m.runActions.bind(m)
+        func()
+      } catch (e) {}
       return false
     }
     let w = await m.render()

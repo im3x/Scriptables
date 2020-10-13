@@ -40,7 +40,9 @@ class Im3xWidget {
     let content = w.addText(data)
     content.font = Font.lightSystemFont(14)
 
-    w.url = this.getURIScheme("do", data)
+    if (this.loader) {
+      w.url = this.getURIScheme("do", data)
+    }
     return w
   }
   /**
