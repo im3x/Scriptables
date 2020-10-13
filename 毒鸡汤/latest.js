@@ -71,7 +71,7 @@ class Im3xWidget {
     _icon.cornerRadius = 4
     header.addSpacer(10)
     let _title = header.addText(title)
-    _title.textColor = Color.white()
+    // _title.textColor = Color.white()
     _title.textOpacity = 0.7
     _title.font = Font.boldSystemFont(12)
     widget.addSpacer(15)
