@@ -8,8 +8,9 @@ class Im3xWidget {
    * 初始化
    * @param arg 外部传递过来的参数
    */
-  constructor (arg) {
+  constructor (arg = 'k') {
     this.arg = arg
+    this.fileName = module.filename.split('Documents/')[1]
     this.widgetSize = config.widgetFamily
   }
   /**
@@ -30,7 +31,7 @@ class Im3xWidget {
    */
   async renderSmall () {
     let w = new ListWidget()
-    w = await this.renderHeader(w)
+    w = await this.renderHeader(w, 'https://txc.gtimg.com/data/285778/2020/1012/f9cf50f08ebb8bd391a7118c8348f5d8.png', '一言')
     let data = await this.getData()
     let content = w.addText(data['hitokoto'])
     content.font = Font.lightSystemFont(14)
@@ -51,42 +52,85 @@ class Im3xWidget {
    * 渲染大尺寸组件
    */
   async renderLarge () {
-    let w = new ListWidget()
-    w.addText("不支持尺寸")
-    return w
+    return await this.renderSmall()
   }
 
-  async renderHeader (widget) {
+  /**
+   * 渲染标题
+   * @param widget 组件对象
+   * @param icon 图标url地址
+   * @param title 标题
+   */
+  async renderHeader (widget, icon, title) {
     let header = widget.addStack()
-    let icon = header.addImage(await this.getImage('https://txc.gtimg.com/data/285778/2020/1012/f9cf50f08ebb8bd391a7118c8348f5d8.png'))
-    icon.imageSize = new Size(15, 15)
+    header.centerAlignContent()
+    let _icon = header.addImage(await this.getImage(icon))
+    _icon.imageSize = new Size(14, 14)
+    _icon.cornerRadius = 4
     header.addSpacer(10)
-    let title = header.addText("一言")
-    title.font = Font.boldSystemFont(14)
-    title.textOpacity = 0.7
-    widget.addSpacer(20)
+    let _title = header.addText(title)
+    // _title.textColor = Color.white()
+    _title.textOpacity = 0.7
+    _title.font = Font.boldSystemFont(12)
+    widget.addSpacer(15)
     return widget
   }
 
   async getData () {
     // 句子类型，参考：https://developer.hitokoto.cn/sentence/#%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0
     // 备注：l 类型无法返回数据，故取消
-    let args = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k']
-    if (args.indexOf(this.arg) === -1) this.arg = 'k'
-    let api = `https://v1.hitokoto.cn/?c=${this.arg}&encode=json`
-    let req = new Request(api)
-    let res = await req.loadJSON()
-    return res
+    let args = 'abcdefghijk'
+    const types = this.arg.split('')
+                    .filter(c => args.indexOf(c) > -1)
+                    .map(c => `c=${c}`)
+                    .join('&') || 'c=k'
+    let api = `https://v1.hitokoto.cn/?${types}&encode=json`
+    return await this.fetchAPI(api)
   }
-
+  /**
+   * 获取api数据
+   * @param api api地址
+   * @param json 接口数据是否是 json 格式，如果不是（纯text)，则传递 false
+   * @return 数据 || null
+   */
+  async fetchAPI (api, json = true) {
+    let data = null
+    const cacheKey = `${this.fileName}_cache`
+    try {
+      let req = new Request(api)
+      data = await (json ? req.loadJSON() : req.loadString())
+    } catch (e) {}
+    // 判断数据是否为空（加载失败）
+    if (!data) {
+      // 判断是否有缓存
+      if (Keychain.contains(cacheKey)) {
+        let cache = Keychain.get(cacheKey)
+        return json ? JSON.parse(cache) : cache
+      } else {
+        // 刷新
+        return null
+      }
+    }
+    // 存储缓存
+    Keychain.set(cacheKey, json ? JSON.stringify(data) : data)
+    return data
+  }
   /**
    * 加载远程图片
    * @param url string 图片地址
    * @return image
    */
   async getImage (url) {
-    let req = new Request(url)
-    return await req.loadImage()
+    try {
+      let req = new Request(url)
+      return await req.loadImage()
+    } catch (e) {
+      let ctx = new DrawContext()
+      ctx.size = new Size(100, 100)
+      ctx.setFillColor(Color.red())
+      ctx.fillRect(new Rect(0, 0, 100, 100))
+      return await ctx.getImage()
+    }
   }
 
   /**
@@ -135,7 +179,7 @@ class Im3xWidget {
 module.exports = Im3xWidget
 
 // 如果是在编辑器内编辑、运行、测试，则取消注释这行，便于调试：
-// await new Im3xWidget().test()
+// await new Im3xWidget('').test()
 
 // 如果是组件单独使用（桌面配置选择这个组件使用，则取消注释这一行：
 // await new Im3xWidget(args.widgetParameter).init()

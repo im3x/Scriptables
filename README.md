@@ -14,7 +14,7 @@ iOS14桌面组件神器（Scriptable）原创框架，脚本开发教程、精�
 2. Safari点击下载：[国内Gitee源，推荐](https://im3x.cn/scriptables/Loader.Gitee.scriptable)、[GitHub版源](https://im3x.cn/scriptables/Loader.Github.scriptable)，然后点击下载的文件，用`Scriptable` App打开
 2. 手动版：打开App，点击右上角 + 号，复制项目中对应的 [loader.github.js](loader.github.js) 或 [loader.gitee.js](loader.gitee.js) 代码    
 3. 长按桌面，添加组件，选择 `Scriptable`，然后点击组件配置，选择刚刚保存的脚本，下方的参数格式为：`插件名@版本号:自定义参数`     
-例如，我要显示`one`每日图文组件，配置下方输入`one`或`one@latest`即可（显示昨天的文章输入配置`one:1`，依次类推）。    
+例如，我要显示`one`每日图文组件，配置下方输入`one`或`one@latest`即可（显示昨天的文章输入配置`one:1`，依此类推）。    
 
 ![](https://i.loli.net/2020/10/12/xf5utXvBWdC3F1g.jpg)
 
@@ -29,6 +29,7 @@ iOS14桌面组件神器（Scriptable）原创框架，脚本开发教程、精�
 |[one](one/)|韩寒ONE·一个图文|`one`|
 |[v2ex](v2ex/)|V2EX 最新、最热文章|`v2ex@api`|
 |[bing](bing/)|Bing 每日必应壁纸|`bing`|
+|[zhihu](zhihu/)|知乎热榜等 |`zhihu`|
 |[weibo](weibo/)|微博热搜榜|`weibo`|
 |[一言](一言/)|随机更新一句话|`一言`|
 |[毒鸡汤](毒鸡汤/)|随机更新一条毒鸡汤|`毒鸡汤`|
