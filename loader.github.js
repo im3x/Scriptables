@@ -3,7 +3,6 @@
 // 用于加载远程 scriptable 桌面组件插件
 // author@im3x
 // 公众号@古人云
-// ver: 202010131210
 // https://github.com/im3x/Scriptables
 //
 
@@ -11,25 +10,34 @@ class Im3xLoader {
   constructor (git = 'github') {
     // 仓库源
     this.git = git
-    this.ver = 202010131540
+    this.ver = 202010131700
     // 解析参数
     this.opt = {
       name: 'welcome',
       args: '',
-      version: 'latest'
+      version: 'latest',
+      developer: 'im3x'
     }
     let arg = args.widgetParameter || args['queryParameters']['__widget__']
+    // widget@version:params
+    // 第三方开发者源：user-name/widget@version:params
     if (arg) {
       let _args = arg.split(":")
       let _plug = _args[0].split("@")
       if (_plug.length === 2) {
         this.opt['version'] = _plug[1]
       }
-      this.opt['name'] = _plug[0]
+      let _name = _plug[0].split('/')
+      if (_name.length === 2) {
+        this.opt['name'] = _name[1]
+        this.opt['developer'] = _name[0]
+      } else {
+        this.opt['name'] = _name[0]
+      }
       if (_args.length === 2) this.opt['args'] = _args[1]
     }
     // 缓存路径
-    this.filename = `${this.opt['name']}@${this.opt['version']}.js.im3x`
+    this.filename = `${this.opt['developer']}_${this.opt['name']}@${this.opt['version']}.js.im3x`
     this.filepath = FileManager.local().documentsDirectory() + '/' + this.filename
     this.notify()
     this.update()
@@ -49,7 +57,7 @@ class Im3xLoader {
     }
     // 加载代码，存储
     try {
-      let req = new Request(`https://${this.git}.com/im3x/Scriptables/raw/main/${encodeURIComponent(this.opt['name'])}/${encodeURIComponent(this.opt['version'])}.js?_=${+new Date}`)
+      let req = new Request(`https://${this.git}.com/${this.opt['developer']}/Scriptables/raw/main/${encodeURIComponent(this.opt['name'])}/${encodeURIComponent(this.opt['version'])}.js?_=${+new Date}`)
       let data = await req.loadString()
       // 如果404
       if (req.response['statusCode'] === 404) {
@@ -68,6 +76,7 @@ class Im3xLoader {
 
     return widget
   }
+  // 加载失败提示
   async renderFail (err) {
     let w = new ListWidget()
     let t1 = w.addText("⚠️")
@@ -77,12 +86,14 @@ class Im3xLoader {
     t2.textColor = Color.red()
     t2.font = Font.lightSystemFont(14)
     t2.centerAlignText()
-    w.url = 'https://github.com/im3x/Scriptables'
+    w.url = `https://github.com/${this.opt['developer']}/Scriptables`
     return w
   }
+  // 初始化组件并渲染
   async render () {
     let M = importModule(this.filename)
     let m = new M(this.opt['args'], this)
+    // 执行组件自定义方法操作
     if (!config.runsInWidget && typeof m['runActions'] === 'function') {
       try {
         let func = m.runActions.bind(m)
@@ -99,6 +110,7 @@ class Im3xLoader {
     return w
   }
   
+  // 通知
   async notify () {
     let req = new Request(`https://${this.git}.com/im3x/Scriptables/raw/main/update.notify.json?_=${+new Date}`)
     let res = await req.loadJSON()
@@ -116,6 +128,7 @@ class Im3xLoader {
     // 设置已通知
     Keychain.set(key, res['id'])
   }
+  // 更新加载器
   async update () {
     let req = new Request(`https://gitee.com/api/v5/repos/im3x/Scriptables/commits?path=loader.${this.git}.js&page=1&per_page=1`)
     let res = await req.loadJSON()
