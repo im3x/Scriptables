@@ -26,17 +26,13 @@ class Im3xWidget {
 	//渲染小尺寸组件
 	async renderSmall () {
 		let data = await this.getData()
-		let colors = this.getColor()
 		let w = new ListWidget()
-		
-		w.backgroundColor = colors.bgColor
-		
+
 		let header = w.addStack()
 		let icon = header.addImage(await this.getImage('https://www.bilibili.com/favicon.ico'))
 		icon.imageSize = new Size(15, 15)
 		header.addSpacer(10)
 		let title = header.addText("哔哩哔哩粉丝")
-		title.textColor = colors.textColor
 		title.textOpacity = 0.9
 		title.font = Font.systemFont(14)
 		w.addSpacer(20)
@@ -54,7 +50,6 @@ class Im3xWidget {
 		w.addSpacer(20)
 		
 		let utTxt = w.addText('更新于:'+this.nowTime())
-		utTxt.textColor = colors.textColor
 		utTxt.font = Font.systemFont(12)
 		utTxt.centerAlignText()
 		utTxt.textOpacity = 0.5
@@ -118,16 +113,7 @@ class Im3xWidget {
 			return 20
 		}
 	}
-	
-	//根据是否黑暗模式返回背景和字体颜色，貌似有bug，切换成黑暗模式后，要重新添加组件才会变回浅色模式
-	getColor(){
-		const [bgColor, textColor] = Device.isUsingDarkAppearance()?[new Color('#1A1B1E', 1), new Color('#FFFFFF')]:[new Color('#FFFFFF', 1), new Color('#000000')];
-		return {
-			bgColor: bgColor,
-			textColor: textColor
-		};
-	}
-  
+	  
 	//编辑测试使用
 	async test(){
 		if (config.runsInWidget) return
