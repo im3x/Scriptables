@@ -4,7 +4,7 @@
  * Date: 2020/10/14
  * Time: 12:14
  * 💚：marsperx
- * ✉：marsper@yeah.net
+ * 📩：marsper@yeah.net
  */
 class Zhifubao {
     // 初始化，接收参数
