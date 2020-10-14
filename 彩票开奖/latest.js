@@ -1,8 +1,10 @@
 /**
- * FileName [彩票开奖查询桌面组件]
+ * FileName [彩票开奖-桌面组件]
  * User: marsper
  * Date: 2020/10/12
  * Time: 15:43
+ * 💚：marsperx
+ * ✉：marsper@yeah.net
  */
 class LotteryQuery {
     /**
