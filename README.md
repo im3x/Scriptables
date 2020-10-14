@@ -59,7 +59,7 @@ iOS14桌面组件神器（Scriptable）原创框架，脚本开发教程、精�
 
 比如开发者 `user-a`， fork 了本项目到自己的仓库，编辑了 `welcome/latest.js` 组件脚本，那么用户在添加桌面组件时，输入参数：`user-a/welcome@latest` 即可加载第三方开发者仓库的组件代码。    
 
-> 注意：由于用户可能使用的是`Gitee`源加载器，所以你应该也需要前往 [Gitee](https://gitee.com)，同步你的仓库项目
+> 注意：由于用户可能使用的是`Gitee`源加载器，所以你应该也需要前往 [Gitee](https://gitee.com)，创建同名用户+仓库，同步 github 仓库项目
 
 （和之前的参数区别就是前边多了 `用户名/` 格式）
 
@@ -79,7 +79,8 @@ iOS14桌面组件神器（Scriptable）原创框架，脚本开发教程、精�
 6. [Scriptable神器实战6 —— 给背景图片加上半透明遮罩](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484345&idx=1&sn=7ebaa57bdf09ca5517b9ca58a12f88b8&chksm=ec567074db21f96234bd0591530b02c0c9bb3c951923fee19ebbb877e52aac56d5b8bd4d27af&scene=178#rd)
 7. [Scriptable神器实战7 —— 获取用户添加组件时的自定义参数](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484350&idx=1&sn=f4c5b25b2d9f7e66bdfbe9150e234864&chksm=ec567073db21f965a5164e2ab27bacfc2b246e4be31ca3a4f23fb96e9c5d543e4ac97310b7bc&token=1302596105&lang=zh_CN#rd)
 8. **[Scriptable 实战之 —— 桌面组件交互之王](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484386&idx=1&sn=c88ddafedad97a3bcfed50f92d16ac5a&chksm=ec56702fdb21f939a3b45305a7a9056fd25bbcb41b69d6f9c7ced34ff46f5f32a913d40ba1ae&scene=178#rd)**.   
-9. [Scriptable神器实战 8 —— 本地存储 Keychain 用法](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484386&idx=2&sn=1b481bb66e0c373d8fd39dfede72575a&chksm=ec56702fdb21f939f07701aeead4375abc02450177565c96d937f9bfa0262ed12e378bca108a&scene=178#rd)
+9. [Scriptable神器实战 8 —— 本地存储 Keychain 用法](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484386&idx=2&sn=1b481bb66e0c373d8fd39dfede72575a&chksm=ec56702fdb21f939f07701aeead4375abc02450177565c96d937f9bfa0262ed12e378bca108a&scene=178#rd)    
+10. [Scriptable神器实战 9 —— Base64 数据编码/解码操作](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484392&idx=1&sn=957336092b12715d60261fda1b6f1d4b&chksm=ec567025db21f9338f0d7659a589cac8cf7a286ec1a940fb960cae63da038d29a0f5ee0fdc91&scene=178#rd)
 
 更多文章连载更新中，扫一扫关注【古人云】公众号，第一时间获取更新：    
 ![](https://i.loli.net/2020/10/13/9hXdRNUg5qSreHk.jpg)
