@@ -1,7 +1,3 @@
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: purple; icon-glyph: magic;
-//
 // 哔哩哔哩粉丝数
 // 作者：azoon
 // 调用参数 bilibili@fans:446791792
