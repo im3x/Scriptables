@@ -1,10 +1,12 @@
 /**
- * FileName [彩票开奖查询桌面组件]
+ * FileName [彩票开奖-桌面组件]
  * User: marsper
  * Date: 2020/10/12
  * Time: 15:43
+ * 💚：marsperx
+ * 📩：marsper@yeah.net
  */
-class LotteryQuery {
+class Caipiao {
     /**
      * 初始化
      * @param arg 外部传递过来的参数
@@ -318,10 +320,10 @@ class LotteryQuery {
     }
 }
 
-module.exports = LotteryQuery
+module.exports = Caipiao
 
 // 如果是在编辑器内编辑、运行、测试，则取消注释这行，便于调试：
-// await new LotteryQuery().test()
+// await new Caipiao().test()
 
 // 如果是组件单独使用（桌面配置选择这个组件使用，则取消注释这一行：
-// await new LotteryQuery(args.widgetParameter).init()
+// await new Caipiao(args.widgetParameter).init()
