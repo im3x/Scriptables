@@ -8,8 +8,9 @@ class Im3xWidget {
    * 初始化
    * @param arg 外部传递过来的参数
    */
-  constructor (arg = 'k') {
+  constructor (arg = 'k', loader) {
     this.arg = arg
+    this.loader = loader
     this.fileName = module.filename.split('Documents/')[1]
     this.widgetSize = config.widgetFamily
   }
@@ -40,6 +41,7 @@ class Im3xWidget {
     footer.font = Font.lightSystemFont(10)
     footer.textOpacity = 0.5
     footer.rightAlignText()
+    if (this.loader) w.url = this.getURIScheme("do", data['hitokoto'])
     return w
   }
   /**
@@ -148,7 +150,53 @@ class Im3xWidget {
     let res = await ctx.getImage()
     return res
   }
-  
+
+  async runActions () {
+    let { act, data } = this.parseQuery()
+    if (!act) return
+    if (act !== 'do') return
+    const alert = new Alert()
+    alert.title = "一言"
+    alert.message = data
+    alert.addAction("复制内容")
+    alert.addAction("查看源码")
+    alert.addCancelAction("取消操作")
+
+    let idx = await alert.presentSheet()
+    switch (idx) {
+      case 0:
+        Pasteboard.copyString(data)
+        break
+      case 1:
+        Safari.openInApp("https://github.com/im3x/Scriptables/tree/main/%E4%B8%80%E8%A8%80", false)
+        break
+    }
+  }
+
+  // 获取跳转自身 urlscheme
+  // w.url = this.getURIScheme("copy", "data-to-copy")
+  getURIScheme (act, data) {
+    let _raw = typeof data === 'object' ? JSON.stringify(data) : data
+    let _data = Data.fromString(_raw)
+    let _b64 = _data.toBase64String()
+    return `scriptable:///run?scriptName=${encodeURIComponent(Script.name())}&act=${act}&data=${_b64}&__widget__=${encodeURIComponent(args['widgetParameter'])}`
+  }
+  // 解析 urlscheme 参数
+  // { act: "copy", data: "copy" }
+  parseQuery () {
+    const { act, data } = args['queryParameters']
+    if (!act) return { act }
+    let _data = Data.fromBase64String(data)
+    let _raw = _data.toRawString()
+    let result = _raw
+    try {
+      result = JSON.parse(_raw)
+    } catch (e) {}
+    return {
+      act,
+      data: result
+    }
+  }
   /**
    * 编辑测试使用
    */
@@ -169,7 +217,7 @@ class Im3xWidget {
    * 组件单独在桌面运行时调用
    */
   async init () {
-    if (!config.runsInWidget) return
+    if (!config.runsInWidget) return await this.runActions()
     let widget = await this.render()
     Script.setWidget(widget)
     Script.complete()
@@ -182,4 +230,4 @@ module.exports = Im3xWidget
 // await new Im3xWidget('').test()
 
 // 如果是组件单独使用（桌面配置选择这个组件使用，则取消注释这一行：
-// await new Im3xWidget(args.widgetParameter).init()
+// await new Im3xWidget(args.widgetParameter, true).init()

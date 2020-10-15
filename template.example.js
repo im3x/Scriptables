@@ -8,8 +8,9 @@ class Im3xWidget {
    * 初始化
    * @param arg 外部传递过来的参数
    */
-  constructor (arg) {
+  constructor (arg, loader) {
     this.arg = arg
+    this.loader = loader
     this.fileName = module.filename.split('Documents/')[1]
     this.widgetSize = config.widgetFamily
   }
@@ -65,7 +66,7 @@ class Im3xWidget {
     let _raw = typeof data === 'object' ? JSON.stringify(data) : data
     let _data = Data.fromString(_raw)
     let _b64 = _data.toBase64String()
-    return `scriptable:///run?scriptName=${encodeURIComponent(Script.name())}&act=${act}&data=${_b64}`
+    return `${URLScheme.forRunningScript()}&act=${act}&data=${_b64}`
   }
   // 解析 urlscheme 参数
   // { act: "copy", data: "copy" }
@@ -187,7 +188,7 @@ class Im3xWidget {
    * 组件单独在桌面运行时调用
    */
   async init () {
-    if (!config.runsInWidget) return
+    if (!config.runsInWidget) return await this.runActions()
     let widget = await this.render()
     Script.setWidget(widget)
     Script.complete()
@@ -200,4 +201,4 @@ module.exports = Im3xWidget
 // await new Im3xWidget('').test()
 
 // 如果是组件单独使用（桌面配置选择这个组件使用，则取消注释这一行：
-// await new Im3xWidget(args.widgetParameter).init()
+// await new Im3xWidget(args.widgetParameter, true).init()

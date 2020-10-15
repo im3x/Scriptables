@@ -236,9 +236,7 @@ class Im3xWidget {
 }
 
 module.exports = Im3xWidget
-
-// 如果是在编辑器内编辑、运行、测试，则取消注释这行，便于调试：
-// await new Im3xWidget('', true).test()
-
-// 如果是组件单独使用（桌面配置选择这个组件使用，则取消注释这一行：
-// await new Im3xWidget(args.widgetParameter, true).init()
+// 编辑器中测试
+// await new Im3xWidget().test()
+// 插件独立运行
+// await new Im3xWidget().init()

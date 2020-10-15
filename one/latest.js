@@ -8,9 +8,8 @@
 
 class Im3xWidget {
   // 初始化，接收参数
-  constructor (arg) {
-    console.log('init.arg=')
-    console.log(arg)
+  constructor (arg, loader) {
+    this.loader = loader
     this.arg = parseInt(arg)
     if (!Number.isInteger(this.arg)) this.arg = 0
   }
@@ -26,7 +25,7 @@ class Im3xWidget {
   
     if (!one) return await this.renderErr(w)
   
-    w.url = one["url"]
+    w.url = this.loader ? this.getURIScheme('open-url', one['url']) : one["url"]
     
   //   时间
     const dates = one["date"].split(" / ")
@@ -75,10 +74,9 @@ class Im3xWidget {
     
     if (!one) return await this.renderErr(w)
     
-    w.url = one["url"]
-    console.log(w.url)
+    w.url = this.loader ? this.getURIScheme('open-url', one['url']) : one["url"]
   
-    w = await this.renderHeader(w)
+    w = await this.renderHeader(w, 'http://image.wufazhuce.com/apple-touch-icon.png', '「ONE · 一个」')
     console.log('render.header.done')
   
     let body = w.addText(one['content'])
@@ -105,16 +103,24 @@ class Im3xWidget {
     err.centerAlignText()
     return widget
   }
-  async renderHeader (widget) {
+  /**
+   * 渲染标题
+   * @param widget 组件对象
+   * @param icon 图标url地址
+   * @param title 标题
+   */
+  async renderHeader (widget, icon, title) {
     let header = widget.addStack()
-    let icon = header.addImage(await this.getImage("http://image.wufazhuce.com/apple-touch-icon.png"))
-    icon.imageSize = new Size(15, 15)
-    icon.cornerRadius = 4
-    let title = header.addText("「ONE · 一个」")
-    title.font = Font.mediumSystemFont(13)
-    title.textColor = Color.white()
-    title.textOpacity = 0.7
-    widget.addSpacer(20)
+    header.centerAlignContent()
+    let _icon = header.addImage(await this.getImage(icon))
+    _icon.imageSize = new Size(14, 14)
+    _icon.cornerRadius = 4
+    header.addSpacer(10)
+    let _title = header.addText(title)
+    _title.textColor = Color.white()
+    _title.textOpacity = 0.7
+    _title.font = Font.boldSystemFont(12)
+    widget.addSpacer(15)
     return widget
   }
   async getData () {
@@ -148,6 +154,42 @@ class Im3xWidget {
     let res = await ctx.getImage()
     return res
   }
+
+  /**
+   * 用户传递的组件自定义点击操作
+   */
+  async runActions () {
+    let { act, data } = this.parseQuery()
+    if (!act) return
+    if (act === 'open-url') {
+      Safari.openInApp(data, false)
+    }
+  }
+
+  // 获取跳转自身 urlscheme
+  // w.url = this.getURIScheme("copy", "data-to-copy")
+  getURIScheme (act, data) {
+    let _raw = typeof data === 'object' ? JSON.stringify(data) : data
+    let _data = Data.fromString(_raw)
+    let _b64 = _data.toBase64String()
+    return `scriptable:///run?scriptName=${encodeURIComponent(Script.name())}&act=${act}&data=${_b64}&__widget__=${encodeURIComponent(args['widgetParameter'])}`
+  }
+  // 解析 urlscheme 参数
+  // { act: "copy", data: "copy" }
+  parseQuery () {
+    const { act, data } = args['queryParameters']
+    if (!act) return { act }
+    let _data = Data.fromBase64String(data)
+    let _raw = _data.toRawString()
+    let result = _raw
+    try {
+      result = JSON.parse(_raw)
+    } catch (e) {}
+    return {
+      act,
+      data: result
+    }
+  }
   // 用于测试
   async test () {
     if (config.runsInWidget) return
@@ -156,7 +198,7 @@ class Im3xWidget {
   }
   // 单独运行
   async init () {
-    if (!config.runsInWidget) return
+    if (!config.runsInWidget) return await this.runActions()
     try {
       this.arg = parseInt(args.widgetParameter)
       if (!Number.isInteger(this.arg)) this.arg = 0
@@ -168,3 +210,9 @@ class Im3xWidget {
 }
 
 module.exports = Im3xWidget
+
+// test
+// await new Im3xWidget().test()
+
+// init
+// await new Im3xWidget(0, true).init()
