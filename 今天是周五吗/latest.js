@@ -126,7 +126,7 @@ class Im3xWidget {
    * 渲染大尺寸组件
    */
   async renderLarge() {
-    return this.renderMedium()
+    return await this.renderMedium()
   }
 
   /**
