@@ -17,11 +17,11 @@ class Im3xWidget {
     var week = date.getDay()
     var weekArr = ['', '周一', '周二', '周三', '周四', '周五', '周六', '周日'];
     return {
-      'MM年dd日': month + "月" + day + "日",
-      'yyyy年MM年dd日': year + "年" + month + "月" + day + "日",
-      'week': weekArr[week],
-      'isFriday': week == 5,
-      'nextFriday': (5 - week + 7) % 7
+      MM年dd日: month + "月" + day + "日",
+      yyyy年MM年dd日: year + "年" + month + "月" + day + "日",
+      week: weekArr[week],
+      isFriday: week == 5,
+      nextFriday: (5 - week + 7) % 7
     }
   }
 
@@ -86,12 +86,12 @@ class Im3xWidget {
    */
   async renderSmall() {
     var current = this.currentDate()
-    let widget = await this.createBasicWidget(current['MM年dd日'], current['week'])
+    let widget = await this.createBasicWidget(current.MM年dd日, current.week)
 
     widget.addSpacer(35)
 
     var answer
-    if (current['isFriday']) {
+    if (current.isFriday) {
       answer = widget.addText('是😏')
       answer.textColor = new Color("#F79709")
     } else {
@@ -106,17 +106,17 @@ class Im3xWidget {
    */
   async renderMedium() {
     var current = this.currentDate()
-    let widget = await this.createBasicWidget(current['yyyy年MM年dd日'], current['week'])
+    let widget = await this.createBasicWidget(current.yyyy年MM年dd日, current.week)
 
     widget.addSpacer(35)
 
     var answer
-    if (current['isFriday']) {
+    if (current.isFriday) {
       answer = widget.addText('是😏')
       answer.textColor = new Color("#F79709")
       answer.font = Font.boldSystemFont(40)
     } else {
-      answer = widget.addText('不是😶，还差' + current['nextFriday'] + '天')
+      answer = widget.addText('不是😶，还有' + current['nextFriday'] + '天')
       answer.font = Font.boldSystemFont(35)
     }
     return widget
