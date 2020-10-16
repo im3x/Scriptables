@@ -20,8 +20,8 @@ class Im3xWidget {
       名人名言: "bb11e9b0-e5b7-11ea-9d4b-00163e1e93a5",
       诗词: "c4c2abc1-e5b7-11ea-9d4b-00163e1e93a5",
     };
-    this.arg = arg;
-    this.typeId = arg ? this.ORM[arg] : this.ORM["舔狗日记"];
+    this.arg = arg ? arg : "舔狗日记";
+    this.typeId = this.ORM[arg];
     this.loader = loader;
     this.fileName = module.filename.split("Documents/")[1];
     this.widgetSize = config.widgetFamily;
