@@ -11,7 +11,7 @@ class Im3xWidget {
   constructor(arg, loader) {
     this.arg = arg
     this.loader = loader
-    this.github = 'https://github.com/GzhiYi/Scriptables'
+    this.github = 'https://github.com/im3x/Scriptables'
     this.fileName = module.filename.split('Documents/')[1]
     this.widgetSize = config.widgetFamily
   }
