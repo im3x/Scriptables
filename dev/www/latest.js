@@ -11,7 +11,6 @@ class Im3xWidget {
   constructor(arg, loader) {
     this.arg = arg
     this.loader = loader
-    this.github = 'https://github.com/im3x/Scriptables'
     this.fileName = module.filename.split('Documents/')[1]
     this.widgetSize = config.widgetFamily
   }
@@ -33,39 +32,36 @@ class Im3xWidget {
    */
   async renderSmall() {
     let w = new ListWidget()
-    let t = w.addText("❤️\n你好\n点击查阅文档")
-    t.centerAlignText()
-    t.font = Font.lightSystemFont(14)
-    w.url = this.loader ? this.getURIScheme('open-url', {
-      url: this.github
-    }) : this.github
+    w.addText("已开启调试！")
     return w
   }
   /**
    * 渲染中尺寸组件
    */
   async renderMedium() {
-    return await this.renderSmall()
+    let w = new ListWidget()
+    w.addText("已开启调试！")
+    return w
   }
   /**
    * 渲染大尺寸组件
    */
   async renderLarge() {
-    return await this.renderSmall()
+    let w = new ListWidget()
+    w.addText("已开启调试！")
+    return w
   }
 
   /**
-   * 用户传递的组件自定义点击操作
-   */
+ * 用户传递的组件自定义点击操作
+ */
   async runActions() {
     let { act, data } = this.parseQuery()
     if (!act) return
-    if (act === 'open-url') {
-      Safari.openInApp(data['url'], false)
-    }
   }
 
   // 获取跳转自身 urlscheme
+  // w.url = this.getURIScheme("copy", "data-to-copy")
   getURIScheme(act, data) {
     let _raw = typeof data === 'object' ? JSON.stringify(data) : data
     let _data = Data.fromString(_raw)
@@ -73,6 +69,7 @@ class Im3xWidget {
     return `${URLScheme.forRunningScript()}?&act=${act}&data=${_b64}`
   }
   // 解析 urlscheme 参数
+  // { act: "copy", data: "copy" }
   parseQuery() {
     const { act, data } = args['queryParameters']
     if (!act) return { act }
@@ -176,19 +173,15 @@ class Im3xWidget {
    */
   async test() {
     if (config.runsInWidget) return
-    try {
-      this.widgetSize = 'small'
-      let w1 = await this.render()
-      await w1.presentSmall()
-      this.widgetSize = 'medium'
-      let w2 = await this.render()
-      await w2.presentMedium()
-      this.widgetSize = 'large'
-      let w3 = await this.render()
-      await w3.presentLarge()
-    } catch (e) {
-      console.warn(e)
-    }
+    this.widgetSize = 'small'
+    let w1 = await this.render()
+    await w1.presentSmall()
+    this.widgetSize = 'medium'
+    let w2 = await this.render()
+    await w2.presentMedium()
+    this.widgetSize = 'large'
+    let w3 = await this.render()
+    await w3.presentLarge()
   }
 
   /**
@@ -208,4 +201,4 @@ module.exports = Im3xWidget
 // await new Im3xWidget('').test()
 
 // 如果是组件单独使用（桌面配置选择这个组件使用，则取消注释这一行：
-// await new Im3xWidget(args.widgetParameter).init()
+// await new Im3xWidget(args.widgetParameter, true).init()
