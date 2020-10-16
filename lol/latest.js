@@ -8,8 +8,11 @@ class Im3xWidget {
    * 初始化
    * @param arg 外部传递过来的参数
    */
-  constructor(arg) {
+  constructor(arg, loader) {
     this.arg = arg
+    this.loader = loader
+    this.github = 'https://github.com/GzhiYi/Scriptables'
+    this.fileName = module.filename.split('Documents/')[1]
     this.widgetSize = config.widgetFamily
   }
   /**
@@ -30,24 +33,59 @@ class Im3xWidget {
    */
   async renderSmall() {
     let w = new ListWidget()
-    w.addText("不支持尺寸")
+    let t = w.addText("❤️\n你好\n点击查阅文档")
+    t.centerAlignText()
+    t.font = Font.lightSystemFont(14)
+    w.url = this.loader ? this.getURIScheme('open-url', {
+      url: this.github
+    }) : this.github
     return w
   }
   /**
    * 渲染中尺寸组件
    */
   async renderMedium() {
-    let w = new ListWidget()
-    w.addText("不支持尺寸")
-    return w
+    return await this.renderSmall()
   }
   /**
    * 渲染大尺寸组件
    */
   async renderLarge() {
-    let w = new ListWidget()
-    w.addText("不支持尺寸")
-    return w
+    return await this.renderSmall()
+  }
+
+  /**
+   * 用户传递的组件自定义点击操作
+   */
+  async runActions() {
+    let { act, data } = this.parseQuery()
+    if (!act) return
+    if (act === 'open-url') {
+      Safari.openInApp(data['url'], false)
+    }
+  }
+
+  // 获取跳转自身 urlscheme
+  getURIScheme(act, data) {
+    let _raw = typeof data === 'object' ? JSON.stringify(data) : data
+    let _data = Data.fromString(_raw)
+    let _b64 = _data.toBase64String()
+    return `${URLScheme.forRunningScript()}?&act=${act}&data=${_b64}`
+  }
+  // 解析 urlscheme 参数
+  parseQuery() {
+    const { act, data } = args['queryParameters']
+    if (!act) return { act }
+    let _data = Data.fromBase64String(data)
+    let _raw = _data.toRawString()
+    let result = _raw
+    try {
+      result = JSON.parse(_raw)
+    } catch (e) { }
+    return {
+      act,
+      data: result
+    }
   }
 
   /**
@@ -74,10 +112,30 @@ class Im3xWidget {
   /**
    * 获取api数据
    * @param api api地址
+   * @param json 接口数据是否是 json 格式，如果不是（纯text)，则传递 false
+   * @return 数据 || null
    */
-  async getData(api) {
-    let req = new Request(api)
-    return await req.loadJSON()
+  async getData(api, json = true) {
+    let data = null
+    const cacheKey = `${this.fileName}_cache`
+    try {
+      let req = new Request(api)
+      data = await (json ? req.loadJSON() : req.loadString())
+    } catch (e) { }
+    // 判断数据是否为空（加载失败）
+    if (!data) {
+      // 判断是否有缓存
+      if (Keychain.contains(cacheKey)) {
+        let cache = Keychain.get(cacheKey)
+        return json ? JSON.parse(cache) : cache
+      } else {
+        // 刷新
+        return null
+      }
+    }
+    // 存储缓存
+    Keychain.set(cacheKey, json ? JSON.stringify(data) : data)
+    return data
   }
   /**
    * 加载远程图片
@@ -85,8 +143,16 @@ class Im3xWidget {
    * @return image
    */
   async getImage(url) {
-    let req = new Request(url)
-    return await req.loadImage()
+    try {
+      let req = new Request(url)
+      return await req.loadImage()
+    } catch (e) {
+      let ctx = new DrawContext()
+      ctx.size = new Size(100, 100)
+      ctx.setFillColor(Color.red())
+      ctx.fillRect(new Rect(0, 0, 100, 100))
+      return await ctx.getImage()
+    }
   }
 
   /**
@@ -110,22 +176,26 @@ class Im3xWidget {
    */
   async test() {
     if (config.runsInWidget) return
-    this.widgetSize = 'small'
-    let w1 = await this.render()
-    await w1.presentSmall()
-    this.widgetSize = 'medium'
-    let w2 = await this.render()
-    await w2.presentMedium()
-    this.widgetSize = 'large'
-    let w3 = await this.render()
-    await w3.presentLarge()
+    try {
+      this.widgetSize = 'small'
+      let w1 = await this.render()
+      await w1.presentSmall()
+      this.widgetSize = 'medium'
+      let w2 = await this.render()
+      await w2.presentMedium()
+      this.widgetSize = 'large'
+      let w3 = await this.render()
+      await w3.presentLarge()
+    } catch (e) {
+      console.warn(e)
+    }
   }
 
   /**
    * 组件单独在桌面运行时调用
    */
   async init() {
-    if (!config.runsInWidget) return
+    if (!config.runsInWidget) return await this.runActions()
     let widget = await this.render()
     Script.setWidget(widget)
     Script.complete()
@@ -135,7 +205,7 @@ class Im3xWidget {
 module.exports = Im3xWidget
 
 // 如果是在编辑器内编辑、运行、测试，则取消注释这行，便于调试：
-// await new Im3xWidget().test()
+// await new Im3xWidget('').test()
 
 // 如果是组件单独使用（桌面配置选择这个组件使用，则取消注释这一行：
 // await new Im3xWidget(args.widgetParameter).init()
