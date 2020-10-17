@@ -86,6 +86,8 @@ iOS14桌面组件神器（Scriptable）原创框架，脚本开发教程、精�
 9. [Scriptable神器实战 8 —— 本地存储 Keychain 用法](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484386&idx=2&sn=1b481bb66e0c373d8fd39dfede72575a&chksm=ec56702fdb21f939f07701aeead4375abc02450177565c96d937f9bfa0262ed12e378bca108a&scene=178#rd)    
 10. [Scriptable神器实战 9 —— Base64 数据编码/解码操作](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484392&idx=1&sn=957336092b12715d60261fda1b6f1d4b&chksm=ec567025db21f9338f0d7659a589cac8cf7a286ec1a940fb960cae63da038d29a0f5ee0fdc91&scene=178#rd)    
 11. [Scriptable神器实战 10 —— MD5 加密字符串](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484403&idx=1&sn=9c8e97fa311ed83d4b5e6763d7f7fd07&chksm=ec56703edb21f9288ff6058c170f1423b9a996d6e776eaf86e6c0df7839b28261f87eef08d40&scene=178#rd)
+12. [Scriptable神器实战 11 —— 利用弹窗输入设计一个用户登录系统](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484411&idx=1&sn=5c31328b145391bd5ef3328658e6acb5&chksm=ec567036db21f92086f851a5ad26f28ea47652cbde197c375a13d7647abc005a458605c7ecac&scene=178&cur_album_id=1546917207903928321#rd)
+13. [Scriptable神器实战 12 —— 剪贴板复制粘贴操作](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484419&idx=1&sn=4ea1aad4f038fb26666e38f7cf396c2f&chksm=ec5677cedb21fed88e4e8ef02d481d3971fc177a7ffff101f0d5f57d9bf37556183e66cbc905&scene=178&cur_album_id=1546917207903928321#rd)
 
 更多文章连载更新中，扫一扫关注【古人云】公众号，第一时间获取更新：    
 ![](https://i.loli.net/2020/10/13/9hXdRNUg5qSreHk.jpg)
