@@ -39,6 +39,7 @@ iOS14桌面组件神器（Scriptable）原创框架，脚本开发教程、精�
 |[网易云音乐](网易云音乐/)|网易云音乐热评等|`网易云音乐@热评`|
 |[bilibili](bilibili/)|哔哩哔哩粉丝数|`bilibili@fans:446791792`|
 |[今天是周五吗](今天是周五吗/)|即刻今天是周五吗|`今天是周五吗`|
+|[锦囊妙计](锦囊妙计/)|锦囊妙计 一个包含众多骚话的插件|`锦囊妙计` 或 `锦囊妙计:舔狗日记` 或 `锦囊妙计:网抑云` ...|
 
 ## 框架优势
 1. 简单方便，无需像其他组件一样，一个个复制代码编辑保存添加。框架直接添加一个加载器，后续全靠灵活的配置    
@@ -83,7 +84,10 @@ iOS14桌面组件神器（Scriptable）原创框架，脚本开发教程、精�
 7. [Scriptable神器实战7 —— 获取用户添加组件时的自定义参数](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484350&idx=1&sn=f4c5b25b2d9f7e66bdfbe9150e234864&chksm=ec567073db21f965a5164e2ab27bacfc2b246e4be31ca3a4f23fb96e9c5d543e4ac97310b7bc&token=1302596105&lang=zh_CN#rd)
 8. **[Scriptable 实战之 —— 桌面组件交互之王](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484386&idx=1&sn=c88ddafedad97a3bcfed50f92d16ac5a&chksm=ec56702fdb21f939a3b45305a7a9056fd25bbcb41b69d6f9c7ced34ff46f5f32a913d40ba1ae&scene=178#rd)**.   
 9. [Scriptable神器实战 8 —— 本地存储 Keychain 用法](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484386&idx=2&sn=1b481bb66e0c373d8fd39dfede72575a&chksm=ec56702fdb21f939f07701aeead4375abc02450177565c96d937f9bfa0262ed12e378bca108a&scene=178#rd)    
-10. [Scriptable神器实战 9 —— Base64 数据编码/解码操作](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484392&idx=1&sn=957336092b12715d60261fda1b6f1d4b&chksm=ec567025db21f9338f0d7659a589cac8cf7a286ec1a940fb960cae63da038d29a0f5ee0fdc91&scene=178#rd)
+10. [Scriptable神器实战 9 —— Base64 数据编码/解码操作](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484392&idx=1&sn=957336092b12715d60261fda1b6f1d4b&chksm=ec567025db21f9338f0d7659a589cac8cf7a286ec1a940fb960cae63da038d29a0f5ee0fdc91&scene=178#rd)    
+11. [Scriptable神器实战 10 —— MD5 加密字符串](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484403&idx=1&sn=9c8e97fa311ed83d4b5e6763d7f7fd07&chksm=ec56703edb21f9288ff6058c170f1423b9a996d6e776eaf86e6c0df7839b28261f87eef08d40&scene=178#rd)
+12. [Scriptable神器实战 11 —— 利用弹窗输入设计一个用户登录系统](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484411&idx=1&sn=5c31328b145391bd5ef3328658e6acb5&chksm=ec567036db21f92086f851a5ad26f28ea47652cbde197c375a13d7647abc005a458605c7ecac&scene=178&cur_album_id=1546917207903928321#rd)
+13. [Scriptable神器实战 12 —— 剪贴板复制粘贴操作](https://mp.weixin.qq.com/s?__biz=MzI5NTIwMDQxOA==&mid=2247484419&idx=1&sn=4ea1aad4f038fb26666e38f7cf396c2f&chksm=ec5677cedb21fed88e4e8ef02d481d3971fc177a7ffff101f0d5f57d9bf37556183e66cbc905&scene=178&cur_album_id=1546917207903928321#rd)
 
 更多文章连载更新中，扫一扫关注【古人云】公众号，第一时间获取更新：    
 ![](https://i.loli.net/2020/10/13/9hXdRNUg5qSreHk.jpg)

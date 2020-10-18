@@ -66,7 +66,7 @@ class Im3xWidget {
     let _raw = typeof data === 'object' ? JSON.stringify(data) : data
     let _data = Data.fromString(_raw)
     let _b64 = _data.toBase64String()
-    return `${URLScheme.forRunningScript()}&act=${act}&data=${_b64}`
+    return `${URLScheme.forRunningScript()}?&act=${act}&data=${_b64}`
   }
   // 解析 urlscheme 参数
   // { act: "copy", data: "copy" }
