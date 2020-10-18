@@ -2,7 +2,7 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: yellow; icon-glyph: magic;
 //
-// 即刻是周五吗
+// 即刻 今天是周五吗
 // 作者：hushenghao
 // 项目地址：https://github.com/im3x/Scriptables
 //
@@ -15,7 +15,7 @@ class Im3xWidget {
     var month = date.getMonth() + 1
     var day = date.getDate()
     var week = date.getDay()
-    var weekArr = ['', '周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+    var weekArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
     return {
       MM年dd日: month + "月" + day + "日",
       yyyy年MM年dd日: year + "年" + month + "月" + day + "日",
