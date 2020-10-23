@@ -21,7 +21,7 @@ class Im3xWidget {
       诗词: "c4c2abc1-e5b7-11ea-9d4b-00163e1e93a5",
     };
     this.arg = arg ? arg : "舔狗日记";
-    this.typeId = this.ORM[arg];
+    this.typeId = this.ORM[this.arg];
     this.loader = loader;
     this.fileName = module.filename.split("Documents/")[1];
     this.widgetSize = config.widgetFamily;
@@ -157,19 +157,16 @@ class Im3xWidget {
     let { act, data } = this.parseQuery();
     if (!act) return;
     if (act !== "do") return;
+    Pasteboard.copyString(data);
     const alert = new Alert();
     alert.title = "锦囊妙计";
     alert.message = data;
-    alert.addAction("复制内容");
     alert.addAction("查看源码");
     alert.addCancelAction("取消操作");
 
     let idx = await alert.presentSheet();
     switch (idx) {
       case 0:
-        Pasteboard.copyString(data);
-        break;
-      case 1:
         Safari.openInApp("https://github.com/im3x/Scriptables/", false);
         break;
     }
