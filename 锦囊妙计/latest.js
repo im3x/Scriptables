@@ -19,6 +19,7 @@ class Im3xWidget {
       土味情话: "b40bc82d-e5b7-11ea-9d4b-00163e1e93a5",
       名人名言: "bb11e9b0-e5b7-11ea-9d4b-00163e1e93a5",
       诗词: "c4c2abc1-e5b7-11ea-9d4b-00163e1e93a5",
+      打工人语录: "cbb26a26-14df-11eb-9d4b-00163e1e93a5",
     };
     this.arg = arg ? arg : "舔狗日记";
     this.typeId = this.ORM[this.arg];
