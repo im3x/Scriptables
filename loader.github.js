@@ -8,7 +8,6 @@
 
 class Im3xLoader {
   constructor(git = 'github') {
-    this.testMode = false
     // 仓库源
     this.git = git
     this.ver = 202010191700
@@ -38,9 +37,8 @@ class Im3xLoader {
       if (_args.length === 2) this.opt['args'] = _args[1]
     }
     // 缓存路径
-    this.workspace = FileManager.local().documentsDirectory()
     this.filename = `${this.opt['developer']}_${this.opt['name']}@${this.opt['version']}.js.im3x`
-    this.filepath = this.workspace + '/' + this.filename
+    this.filepath = FileManager.local().documentsDirectory() + '/' + this.filename
     this.notify()
     this.update()
   }
@@ -118,11 +116,6 @@ class Im3xLoader {
       }
       return false
     }
-    // 测试模式
-    console.log('testMode: ' + this.testMode)
-    if (this.testMode && typeof m['test'] === 'function') {
-      return await m.test()
-    }
     let w = await m.render()
     return w
   }
@@ -169,110 +162,9 @@ class Im3xLoader {
     FileManager.local().writeString(self, new_code)
     Keychain.set(key, commit['sha'])
   }
-
-  // 加载器入口
-  async main() {
-    if (!config.runsInWidget) {
-      // App内运行
-      let position = await generatAlert('选项', ['Welcome', '管理已下载组件'], '取消')
-      if (position === 1) {
-        return await this.manageModule()
-      }
-    }
-
-    // 运行
-    return await this.init()
-  }
-
-  // 管理已下载组件
-  async manageModule() {
-    let list = FileManager.local().listContents(this.workspace)
-      .filter(path => path.endWith('.im3x'))// 返回的是相对路径
-    list = list.map(path => FileManager.local().fileName(path, true))
-    let selectedPosition = await generatTable(list)
-    if (selectedPosition === -1) {
-      return
-    }
-    this.filename = list[selectedPosition]// 选择的文件名
-    this.filepath = this.workspace + '/' + this.filename
-    console.log(this.filepath)
-
-    let actionPosition = await generatAlert('选项', ['运行', '测试', '更新', '删除'], '取消')
-    // 删除
-    if (actionPosition === 3) {
-      if (0 === await generatAlert('确定删除', ['确定'], '取消')) {
-        await FileManager.local().remove(this.filepath)
-      }
-      return
-    }
-
-    // 解析文件名称
-    // `${this.opt['developer']}_${this.opt['name']}@${this.opt['version']}.js.im3x`
-    let _args = this.filename.split('@')
-    let _name = _args[0].split('_')
-    this.opt['developer'] = _name[0]
-    this.opt['name'] = _name[1]
-    this.opt['version'] = _args[1].replace('.js.im3x', '')
-
-    // 更新
-    if (actionPosition === 2) {
-      try {
-        // 下载组件
-        await this.download()
-        await generatAlert('更新成功', null, '关闭')
-      } catch (e) {
-        await generatAlert(e.message, null, '取消')
-      }
-      return
-    }
-
-    this.testMode = actionPosition === 1
-    // 运行 or test
-    return await this.init()
-  }
 }
-
-// String.endWith扩展函数
-String.prototype.endWith = function (endStr) {
-  var d = this.length - endStr.length;
-  return (d >= 0 && this.lastIndexOf(endStr) == d)
-}
-
-// UITable
-async function generatTable(items) {
-  let table = new UITable()
-  let selectedPosition = -1;
-  for (item of items) {
-    let row = new UITableRow()
-    let rowText = row.addText(item)
-    row.onSelect = (p) => {
-      selectedPosition = p
-    }
-    table.addRow(row)
-  }
-  await QuickLook.present(table)
-  return selectedPosition
-}
-
-// 弹窗
-async function generatAlert(message, options, cancel) {
-  let alert = new Alert()
-  alert.message = message
-
-  if (options) {
-    for (option of options) {
-      alert.addAction(option)
-    }
-  }
-  if (cancel) {
-    alert.addCancelAction(cancel)
-  }
-  return await alert.presentAlert()
-}
-
-
 const Loader = new Im3xLoader()
-const widget = await Loader.main()
+const widget = await Loader.init()
 if (config.runsInWidget && widget) {
   Script.setWidget(widget)
 }
