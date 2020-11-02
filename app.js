@@ -8,6 +8,7 @@ const bodyParser = require('body-parser')
 
 const HTTP_PORT = 5566
 const WORK_DIR = path.dirname(__filename)
+const SCRIPTS_DIR = path.join(WORK_DIR, "Scripts")
 
 const app = express()
 const upload = multer({
@@ -27,13 +28,13 @@ app.get('/ping', (req, res) => {
 })
 
 let FILE_DATE = null
-// const WIDGET_FILE = path.join(WORK_DIR, "Widget.js")
 
 app.get('/sync', (req, res) => {
   // console.log('[-] 等待同步到手机..')
   const { name } = req.query
 
-  const WIDGET_FILE = path.join(WORK_DIR, name + '.js')
+  const WIDGET_FILE = path.join(SCRIPTS_DIR, name + '.js')
+  if (!fs.existsSync(WIDGET_FILE)) return res.send("nofile").end()
 
   setTimeout(() => {
     // 判断文件时间
@@ -57,20 +58,20 @@ app.post("/sync", (req, res) => {
   console.log('[+] Scriptalbe App 已连接')
   const _file = req.files[0]
   const FILE_NAME = _file['originalname'] + '.js'
-  const WIDGET_FILE = path.join(WORK_DIR, FILE_NAME)
+  const WIDGET_FILE = path.join(SCRIPTS_DIR, FILE_NAME)
   fs.renameSync(_file['path'], WIDGET_FILE)
   res.send("ok")
   console.log(`[*] 小组件源码（${_file['originalname']}）已同步，请打开编辑`)
   FILE_DATE = fs.statSync(WIDGET_FILE).mtimeMs
   // 尝试打开
-  let cmd = `code ./"${FILE_NAME}"`
+  let cmd = `code "${WIDGET_FILE}"`
   if (os.platform() === "win32") {
     cmd = `cmd.exe /c ${cmd}`
   } else if (os.platform() === "linux") {
     let shell = process.env["SHELL"]
     cmd = `${shell} -c ${cmd}`
   } else {
-    cmd = `"/Applications/Visual Studio Code.app/Contents/MacOS/Electron" ./"${FILE_NAME}"`
+    cmd = `"/Applications/Visual Studio Code.app/Contents/MacOS/Electron" "${WIDGET_FILE}"`
   }
   child_process.execSync(cmd)
 })

@@ -49,5 +49,5 @@
 交流群：
 https://x.im3x.cn/images/qun1.jpeg
 
-小程序：    
-![](https://x.im3x.cn/images/qr.png)
+
+![](https://x.im3x.cn/images/qr2.png)
