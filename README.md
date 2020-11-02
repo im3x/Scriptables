@@ -27,6 +27,9 @@
 2. `npm install` 安装依赖环境    
 3. `npm start` 在 vscode 中运行服务    
 
+## 手机安装
+复制 [install-runtime.js](install-runtime.js) 文件内容，手机打开 Scriptable 应用，点击+号新建，长按粘贴，点击运行即可
+
 ## 手机连接
 分别复制 `「小件件」开发环境.js`、`「小件件」小组件示例.js` 源码到 `Scriptable` 应用里    
 我推荐的小组件命名： `「源码」小组件名`，这样当写的插件多了（打包后的和开发中的）就不容易混淆了    
