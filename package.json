@@ -1,6 +1,7 @@
 {
   "name": "v2-dev",
   "version": "1.0.0",
+  "runtime_ver": 20201103,
   "description": "",
   "main": "index.js",
   "scripts": {
