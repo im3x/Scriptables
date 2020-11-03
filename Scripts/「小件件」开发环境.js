@@ -9,7 +9,7 @@
 // 
 
 // 组件基础类
-const RUNTIME_VERSION = 20201103
+const RUNTIME_VERSION = 20201104
 
 class Base {
   constructor (arg="") {
@@ -26,18 +26,18 @@ class Base {
     // 2. 不同尺寸的小组件
     // 3. 不同尺寸+小组件自定义的参数
     // 当没有key2时，获取key1，没有key1获取全局key的设置
-    this.SETTING_KEY = this.md5(Script.name()+'@'+this.widgetFamily+"@"+this.arg)
-    this.SETTING_KEY1 = this.md5(Script.name()+'@'+this.widgetFamily)
-    this.SETTING_KEY2 = this.md5(Script.name())
+    // this.SETTING_KEY = this.md5(Script.name()+'@'+this.widgetFamily+"@"+this.arg)
+    // this.SETTING_KEY1 = this.md5(Script.name()+'@'+this.widgetFamily)
+    this.SETTING_KEY = this.md5(Script.name())
     // 文件管理器
     // 提示：缓存数据不要用这个操作，这个是操作源码目录的，缓存建议存放在local temp目录中
     this.FILE_MGR = FileManager[module.filename.includes('Documents/iCloud~') ? 'iCloud' : 'local']()
     // 本地，用于存储图片等
     this.FILE_MGR_LOCAL = FileManager.local()
     this.BACKGROUND_KEY = this.FILE_MGR_LOCAL.joinPath(this.FILE_MGR_LOCAL.documentsDirectory(), `bg_${this.SETTING_KEY}.jpg`)
-    this.BACKGROUND_KEY1 = this.FILE_MGR_LOCAL.joinPath(this.FILE_MGR_LOCAL.documentsDirectory(), `bg_${this.SETTING_KEY1}.jpg`)
-    this.BACKGROUND_KEY2 = this.FILE_MGR_LOCAL.joinPath(this.FILE_MGR_LOCAL.documentsDirectory(), `bg_${this.SETTING_KEY2}.jpg`)
-    // 插件设置
+    // this.BACKGROUND_KEY1 = this.FILE_MGR_LOCAL.joinPath(this.FILE_MGR_LOCAL.documentsDirectory(), `bg_${this.SETTING_KEY1}.jpg`)
+    // this.BACKGROUND_KEY2 = this.FILE_MGR_LOCAL.joinPath(this.FILE_MGR_LOCAL.documentsDirectory(), `bg_${this.SETTING_KEY2}.jpg`)
+    // // 插件设置
     this.settings = this.getSettings()
   }
 
@@ -436,12 +436,15 @@ class Base {
   getSettings(json=true){
     let res=json?{}:""
     let cache=""
+    // if (global && Keychain.contains(this.SETTING_KEY2)) {
+    //   cache = Keychain.get(this.SETTING_KEY2)
+    // } else if (Keychain.contains(this.SETTING_KEY)) {
+    //   cache = Keychain.get(this.SETTING_KEY)
+    // } else if (Keychain.contains(this.SETTING_KEY1)) {
+    //   cache = Keychain.get(this.SETTING_KEY1)
+    // } else if (Keychain.contains(this.SETTING_KEY2)){
     if (Keychain.contains(this.SETTING_KEY)) {
-      cache = Keychain.get(this.SETTING_KEY)
-    } else if (Keychain.contains(this.SETTING_KEY1)) {
-      cache = Keychain.get(this.SETTING_KEY1)
-    } else if (Keychain.contains(this.SETTING_KEY2)){
-      cache= Keychain.get(this.SETTING_KEY2)
+      cache= Keychain.get(this.SETTING_KEY)
     }
       if (json){
         try {
