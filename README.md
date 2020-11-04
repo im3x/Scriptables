@@ -6,15 +6,15 @@
 # 介绍
 这是一个便于开发者在电脑上开发、测试、预览 iOS 小组件（Scriptable）的开发框架    
 通过简单安装，就可以获得一个舒适的Scriptable脚本开发环境，支持语法高亮、自动补全、实时同步测试预览。    
-不用再手机上敲代码了！并且该开发框架封装了很多常用的操作接口，大大节省小组件开发时间！
+不用再在手机上敲代码了！并且该开发框架封装了很多常用的操作接口，让开发者专注数据解析+小组件UI设计，大大节省开发时间！
 
 # 开始
 **首先，我们配置电脑开发环境：**    
 1. 下载安装 VSCode 编辑器
-2. 下载本项目的此分支zip或代码：`git clone -b v2-dev https://github.com/im3x/Scriptables.git`    
+2. 下载本项目的`v2-dev`分支zip或代码：`git clone -b v2-dev https://github.com/im3x/Scriptables.git`    
    （⚠️注意要加`-b`参数指定分支）    
-3. 进入代码目录，安装依赖：`npm install`    
-4. 运行服务：`npm start`    
+3. VSCode打开代码目录，进入终端，运行安装依赖命令：`npm install`    
+4. 安装好依赖，开启开发服务命令：`npm start`    
 
 > ⚠️ 提示： windows 用户请存放源码到用户目录，比如 `C:\Users\xxx\Scriptables`，否则可能会引发权限问题导致运行失败
 
