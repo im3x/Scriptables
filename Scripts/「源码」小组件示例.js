@@ -44,7 +44,7 @@ class Widget extends Base {
    */
   async renderSmall (data) {
     let w = new ListWidget()
-    this.renderHeader(w, data['logo'], data['title'])
+    await this.renderHeader(w, data['logo'], data['title'])
     const t = w.addText(data['content'])
     t.font = Font.lightSystemFont(16)
     w.addSpacer()
@@ -56,7 +56,7 @@ class Widget extends Base {
    */
   async renderMedium (data, num = 3) {
     let w = new ListWidget()
-    this.renderHeader(w, data['logo'], data['title'])
+    await this.renderHeader(w, data['logo'], data['title'])
     data['data'].slice(0, num).map(d => {
       const cell = w.addStack()
       cell.centerAlignContent()
