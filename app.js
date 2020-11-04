@@ -20,6 +20,13 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(bodyParser.json())
 
+app.get("/", (req, res) => {
+  let html = fs.readFileSync(path.join(WORK_DIR, "guide.html")).toString()
+  let js = fs.readFileSync(path.join(WORK_DIR, "install-runtime.js")).toString()
+  html = html.replace("@@code@@", js)
+  res.send(html)
+})
+
 app.get('/ping', (req, res) => {
   console.log('[-] ping..')
   setTimeout(() => {

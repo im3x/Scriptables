@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>手机安装「小件件」开发环境指导</title>
+</head>
+<body>
+  <h1><a href="https://x.im3x.cn" style="text-decoration: none;color:#666;">「小件件」</a>开发环境安装</h1>
+  <button id="copy" onclick="copy()">👇 1.点击复制下方代码</button>
+  <textarea id="js" readonly>@@code@@</textarea>
+  <p>打开 Scriptable，点击 ➕，粘贴，运行 ▶️</p>
+  <a id="open" href="scriptable:///add?scriptName=hello">👉 2. 点击打开 Scriptable</a>
+</body>
+<style>
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#copy, #open {
+  width: 200px;
+  height: 50px;
+  background-color: green;
+  color: #FFF;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 14px;
+}
+#open {
+  background-color: darkred;
+}
+#js {
+  width: 200px;
+  height: 100px;
+  margin: 20px;
+  z-index: -1;
+}
+</style>
+<script>
+var copyOK = 0;
+function copy () {
+document.getElementById("js").select();
+document.execCommand("Copy");
+document.getElementById("copy").innerText = "复制成功！" + (copyOK > 0 ? '+'+copyOK :'')
+copyOK ++;
+document.getElementById("open").focus()
+}
+
+</script>
+</html>
