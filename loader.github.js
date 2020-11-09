@@ -7,10 +7,10 @@
 //
 
 class Im3xLoader {
-  constructor(git = 'github') {
+  constructor (git = 'github') {
     // 仓库源
     this.git = git
-    this.ver = 202010191700
+    this.ver = 202010131700
     // 解析参数
     this.opt = {
       name: 'welcome',
@@ -43,20 +43,7 @@ class Im3xLoader {
     this.update()
   }
 
-  // 下载代码
-  async download() {
-    const url = `https://${this.git}.com/${this.opt['developer']}/Scriptables/raw/main/${encodeURIComponent(this.opt['name'])}/${encodeURIComponent(this.opt['version'])}.js?_=${+new Date}`
-    console.log(url)
-    let req = new Request(url)
-    let data = await req.loadString()
-    // 如果404
-    if (req.response['statusCode'] === 404) {
-      throw new Error('插件不存在')
-    }
-    await FileManager.local().writeString(this.filepath, data)
-  }
-
-  async init() {
+  async init () {
     // 判断文件是否存在
     let rendered = false
     let widget
@@ -64,20 +51,23 @@ class Im3xLoader {
       try {
         rendered = true
         widget = await this.render()
-      } catch (e) {
-        console.warn(e)
+      } catch(e){
         rendered = false
       }
     }
     // 加载代码，存储
     try {
-      // 下载代码
-      await this.download()
+      let req = new Request(`https://${this.git}.com/${this.opt['developer']}/Scriptables/raw/main/${encodeURIComponent(this.opt['name'])}/${encodeURIComponent(this.opt['version'])}.js?_=${+new Date}`)
+      let data = await req.loadString()
+      // 如果404
+      if (req.response['statusCode'] === 404) {
+        return await this.renderFail('插件不存在')
+      }
+      await FileManager.local().writeString(this.filepath, data)
       if (!rendered) {
         widget = await this.render()
       }
     } catch (e) {
-      console.warn(e)
       // 网络加载失败，返回错误提示
       // 如果已经渲染了（有本地缓存，直接返回本地代码）
       if (rendered) return widget
@@ -87,7 +77,7 @@ class Im3xLoader {
     return widget
   }
   // 加载失败提示
-  async renderFail(err) {
+  async renderFail (err) {
     let w = new ListWidget()
     let t1 = w.addText("⚠️")
     t1.centerAlignText()
@@ -100,7 +90,7 @@ class Im3xLoader {
     return w
   }
   // 初始化组件并渲染
-  async render() {
+  async render () {
     let M = importModule(this.filename)
     let m = new M(this.opt['args'], this)
     // 执行组件自定义方法操作
@@ -119,9 +109,9 @@ class Im3xLoader {
     let w = await m.render()
     return w
   }
-
+  
   // 通知
-  async notify() {
+  async notify () {
     let req = new Request(`https://${this.git}.com/im3x/Scriptables/raw/main/update.notify.json?_=${+new Date}`)
     let res = await req.loadJSON()
     if (!res || !res['id']) return
@@ -139,7 +129,7 @@ class Im3xLoader {
     Keychain.set(key, res['id'])
   }
   // 更新加载器
-  async update() {
+  async update () {
     let req = new Request(`https://gitee.com/api/v5/repos/im3x/Scriptables/commits?path=loader.${this.git}.js&page=1&per_page=1`)
     let res = await req.loadJSON()
     let commit = res[0]
