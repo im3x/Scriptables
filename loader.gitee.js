@@ -3,6 +3,7 @@
 // 用于加载远程 scriptable 桌面组件插件
 // author@im3x
 // 公众号@古人云
+// 小程序@小件件
 // https://github.com/im3x/Scriptables
 //
 
@@ -10,7 +11,7 @@ class Im3xLoader {
   constructor (git = 'github') {
     // 仓库源
     this.git = git
-    this.ver = 202010131700
+    this.ver = 202011091230
     // 解析参数
     this.opt = {
       name: 'welcome',
@@ -43,6 +44,15 @@ class Im3xLoader {
     this.update()
   }
 
+  async httpGet (url, json = true) {
+    const req = new Request(url)
+    req.headers = {
+      'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/86.0.4240.18 Scriptable/' + (+new Date)
+    }
+    req.method = "GET"
+    return await req[json ? 'loadJSON' : 'loadString']()
+  }
+
   async init () {
     // 判断文件是否存在
     let rendered = false
@@ -57,11 +67,12 @@ class Im3xLoader {
     }
     // 加载代码，存储
     try {
-      let req = new Request(`https://${this.git}.com/${this.opt['developer']}/Scriptables/raw/main/${encodeURIComponent(this.opt['name'])}/${encodeURIComponent(this.opt['version'])}.js?_=${+new Date}`)
-      let data = await req.loadString()
-      // 如果404
-      if (req.response['statusCode'] === 404) {
-        return await this.renderFail('插件不存在')
+      // 如果代码是第三方开发者仓库，则加载github的
+      let data = ''
+      if (this.opt['developer'] !== 'im3x') {
+        data = await this.httpGet(`https://${this.git}.com/${this.opt['developer']}/Scriptables/raw/main/${encodeURIComponent(this.opt['name'])}/${encodeURIComponent(this.opt['version'])}.js?_=${+new Date}`, false)
+      } else {
+        data = await this.httpGet(`https://x.im3x.cn/loader/scriptables/${encodeURIComponent(this.opt['name'])}/${encodeURIComponent(this.opt['version'])}.js?_=${+new Date}`, false)
       }
       await FileManager.local().writeString(this.filepath, data)
       if (!rendered) {
@@ -112,8 +123,7 @@ class Im3xLoader {
   
   // 通知
   async notify () {
-    let req = new Request(`https://${this.git}.com/im3x/Scriptables/raw/main/update.notify.json?_=${+new Date}`)
-    let res = await req.loadJSON()
+    const res = await this.httpGet(`https://x.im3x.cn/loader/scriptables/update.notify.json?_=${+new Date}`)
     if (!res || !res['id']) return
     // 判断是否已经通知过
     let key = 'im3x_loader_notify'
@@ -130,17 +140,15 @@ class Im3xLoader {
   }
   // 更新加载器
   async update () {
-    let req = new Request(`https://gitee.com/api/v5/repos/im3x/Scriptables/commits?path=loader.${this.git}.js&page=1&per_page=1`)
-    let res = await req.loadJSON()
-    let commit = res[0]
+    const res = await this.httpGet('https://x.im3x.cn/loader/scriptables/update.notify.json')
+    let version = String(res['loader.version'])
     let key = 'im3x_loader_update'
     if (Keychain.contains(key)) {
       let cache = Keychain.get(key)
-      if (cache === commit['sha']) return
+      if (cache === version) return
     }
     // 加载远程代码内容
-    let req1 = new Request(`https://gitee.com/im3x/Scriptables/raw/main/loader.${this.git}.js`)
-    let res1 = await req1.loadString()
+    const res1 = await this.httpGet(`https://x.im3x.cn/loader/scriptables/loader.${this.git}.js`, false)
     // 当前脚本的路径
     let self = module.filename
     // 读取前三行代码（包含图标信息）
@@ -150,7 +158,7 @@ class Im3xLoader {
     let new_code = `${tmp[0]}\n${tmp[1]}\n${tmp[2]}\n${res1}`
     // 写入文件
     FileManager.local().writeString(self, new_code)
-    Keychain.set(key, commit['sha'])
+    Keychain.set(key, version)
   }
 }
 const Loader = new Im3xLoader('gitee')
