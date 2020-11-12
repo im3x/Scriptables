@@ -1,11 +1,11 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: orange; icon-glyph: comments;
-// 
+//
 // iOS 桌面组件脚本 @「小件件」
 // 开发说明：请从 Widget 类开始编写，注释请勿修改
 // https://x.im3x.cn
-// 
+//
 
 // 添加require，是为了vscode中可以正确引入包，以获得自动补全等功能
 if (typeof require === 'undefined') require = importModule
@@ -43,10 +43,11 @@ class Widget extends Base {
   /**
    * 渲染中尺寸组件
    */
-  async renderMedium (data, num = 2) {
+  async renderMedium (data, num = 4, title = false) {
     let w = new ListWidget()
     // await this.renderHeader(w, data['logo'], data['title'])
-    data.slice(0, num * 2).map(d => {
+    data.slice(0, num * 2).map((d, idx) => {
+      if (!title && idx % 2 === 0) return;
       const cell = w.addStack()
       cell.centerAlignContent()
       const cell_text = cell.addText(d)
@@ -62,7 +63,7 @@ class Widget extends Base {
    * 渲染大尺寸组件
    */
   async renderLarge (data) {
-    return await this.renderMedium(data, 5)
+    return await this.renderMedium(data, 5, true)
   }
 
   /**
@@ -71,7 +72,7 @@ class Widget extends Base {
   async getData () {
     const html = await this.fetchAPI(this.url, false);
     const tmp = html.split(`<p style="display:none">mryt</p>`)[1].split(`<div class="more-strategy"><i></i></div>`)[0];
-    
+
     const arr = tmp.split(`</span>​</p>`).slice(0, 20);
     const result = [];
     for (const answer of arr) {
