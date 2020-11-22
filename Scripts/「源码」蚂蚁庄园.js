@@ -43,10 +43,11 @@ class Widget extends Base {
   /**
    * 渲染中尺寸组件
    */
-  async renderMedium (data, num = 2) {
+  async renderMedium (data, num = 4, title = false) {
     let w = new ListWidget()
     // await this.renderHeader(w, data['logo'], data['title'])
-    data.slice(0, num * 2).map(d => {
+    data.slice(0, num * 2).map((d, idx) => {
+      if (!title && idx % 2 === 0) return;
       const cell = w.addStack()
       cell.centerAlignContent()
       const cell_text = cell.addText(d)
@@ -62,7 +63,7 @@ class Widget extends Base {
    * 渲染大尺寸组件
    */
   async renderLarge (data) {
-    return await this.renderMedium(data, 5)
+    return await this.renderMedium(data, 5, true)
   }
 
   /**
