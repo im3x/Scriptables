@@ -1,11 +1,11 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: orange; icon-glyph: comments;
-// 
+//
 // iOS 桌面组件脚本 @「小件件」
 // 开发说明：请从 Widget 类开始编写，注释请勿修改
 // https://x.im3x.cn
-// 
+//
 
 // 添加require，是为了vscode中可以正确引入包，以获得自动补全等功能
 if (typeof require === 'undefined') require = importModule
@@ -71,7 +71,7 @@ class Widget extends Base {
   async getData () {
     const html = await this.fetchAPI(this.url, false);
     const tmp = html.split(`<p style="display:none">mryt</p>`)[1].split(`<div class="more-strategy"><i></i></div>`)[0];
-    
+
     const arr = tmp.split(`</span>​</p>`).slice(0, 20);
     const result = [];
     for (const answer of arr) {
@@ -79,6 +79,7 @@ class Widget extends Base {
       if (!answer) continue;
       const text = answer.replace(/<p>/, '').replace(/\&nbsp;/gi, ' ').replace(/<span style="[^"]+">/gi, '').replace(/小鸡宝宝考考你[,，]?/, '').trim();
       const [ title, an ] = text.split('答案：');
+      if (!title) continue;
       const [ day, t] = title.split('月')[1].split('：');
       result.push(t);
       result.push(`答案：${an}  (${day})`);
