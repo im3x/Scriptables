@@ -44,11 +44,11 @@ class Widget extends Base {
     }
     switch (this.widgetFamily) {
       case 'large':
-        return await this.renderLarge(data)
+        return await this.renderLarge(data['resultData']['data'])
       case 'medium':
         return await this.renderMedium(data['resultData']['data'])
       default:
-        return await this.renderSmall(data)
+        return await this.renderSmall(data['resultData']['data'])
     }
   }
 
@@ -68,7 +68,57 @@ class Widget extends Base {
    * 渲染小尺寸组件
    */
   async renderSmall (data) {
-    return await this.renderFail("暂只支持中尺寸小组件")
+    let w = new ListWidget()
+
+    w.url = this.actionUrl('open-url')
+    await this.renderHeader(w, this.logo, this.name)
+
+    const bg = new LinearGradient()
+    bg.locations = [0, 1]
+    bg.colors = [
+      new Color('#f35942', 1),
+      new Color('#e92d1d', 1)
+    ]
+    w.backgroundGradient = bg
+
+    // 判断参数，如果传递1，则显示待还，否则显示额度
+    let info = {}
+    if (this.arg === "1") {
+      info = {
+        title: data['bill']['title'],
+        data: data['bill']['amount'],
+        desc: data['bill']['buttonName']
+      }
+    } else {
+      info = {
+        title: '可用额度',
+        data: data['quota']['quotaLeft'],
+        desc: '总额度：' + data['quota']['quotaAll']
+      }
+    }
+
+    const box = w.addStack()
+    const body = box.addStack()
+    body.layoutVertically()
+
+    const title = body.addText(info.title)
+    title.font = Font.boldSystemFont(16)
+
+    body.addSpacer(10)
+
+    const num = body.addText(info.data)
+    num.font = Font.systemFont(24)
+
+    body.addSpacer()
+
+    const desc = body.addText(info.desc)
+    desc.font = Font.lightSystemFont(12)
+    desc.textOpacity = 0.8
+    desc.lineLimit = 1
+
+    box.addSpacer()
+
+    return w
   }
   /**
    * 渲染中尺寸组件
