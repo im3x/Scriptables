@@ -115,7 +115,7 @@ class Widget extends Base {
   // 中尺寸组件
   async renderMedium (data) {
     let w = new ListWidget()
-    w.addSpacer(10)
+    // w.addSpacer(10)
     // 设置名称
     let tmp = this.SETTINGS.split('@')
     let tid = tmp[0] === 'api' ? 0 : (tmp[0] === 'tab' ? 1 : 2)
@@ -123,23 +123,25 @@ class Widget extends Base {
     this.API[tid].map(a => {
       if (a['id'] === tmp[1]) current = a['name']
     })
-    w = await this.renderHeader(w, this.logo, this.name + ' / ' + current)
+    await this.renderHeader(w, this.logo, this.name + ' / ' + current)
+    w.addSpacer()
     
     let body = w.addStack()
     let bodyleft= body.addStack()
     bodyleft.layoutVertically()
     for (let i = 0; i < 2; i ++) {
       bodyleft = await this.renderCell(bodyleft, data[i])
-      bodyleft.addSpacer(5)
+      bodyleft.addSpacer()
     }
-    body.addSpacer()
+    // body.addSpacer()
+    w.url = this.actionUrl("settings")
 
     return w
   }
   // 大尺寸组件
   async renderLarge (data) {
     let w = new ListWidget()
-    w.addSpacer(10)
+    // w.addSpacer(10)
     // 设置名称
     let tmp = this.SETTINGS.split('@')
     let tid = tmp[0] === 'api' ? 0 : (tmp[0] === 'tab' ? 1 : 2)
@@ -147,7 +149,8 @@ class Widget extends Base {
     this.API[tid].map(a => {
       if (a['id'] === tmp[1]) current = a['name']
     })
-    w = await this.renderHeader(w, this.logo, this.name + ' / ' + current)
+    await this.renderHeader(w, this.logo, this.name + ' / ' + current)
+    w.addSpacer()
     
       
     let body = w.addStack()
@@ -155,9 +158,12 @@ class Widget extends Base {
     bodyleft.layoutVertically()
     for (let i = 0; i < 5; i ++) {
       bodyleft = await this.renderCell(bodyleft, data[i])
-      bodyleft.addSpacer(5)
+      bodyleft.addSpacer()
     }
-    body.addSpacer()
+    // body.addSpacer()
+    
+    // w.addSpacer()
+    w.url = this.actionUrl("settings")
 
     return w
   }
@@ -176,7 +182,7 @@ class Widget extends Base {
     right.layoutVertically()
     let content = right.addText(topic['title'])
     content.font = Font.lightSystemFont(14)
-    content.lineLimit = 2
+    content.lineLimit = 1
 
     right.addSpacer(5)
 
@@ -185,7 +191,7 @@ class Widget extends Base {
     info.textOpacity = 0.6
     info.lineLimit = 2
 
-    widget.addSpacer(10)
+    widget.addSpacer()
 
     return widget
   }
