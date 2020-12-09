@@ -162,6 +162,7 @@ class Base {
    * @param {bool|color} color 字体的颜色（自定义背景时使用，默认系统）
    */
   async renderHeader (widget, icon, title, color = false) {
+    widget.addSpacer(10)
     let header = widget.addStack()
     header.centerAlignContent()
     let _icon = header.addImage(await this.getImageByUrl(icon))
@@ -172,7 +173,7 @@ class Base {
     if (color) _title.textColor = color
     _title.textOpacity = 0.7
     _title.font = Font.boldSystemFont(12)
-    widget.addSpacer(15)
+    widget.addSpacer(10)
     return widget
   }
 
