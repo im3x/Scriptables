@@ -20,12 +20,38 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(bodyParser.json())
 
-app.get("/", (req, res) => {
-  let html = fs.readFileSync(path.join(WORK_DIR, "guide.html")).toString()
-  let js = fs.readFileSync(path.join(WORK_DIR, "install-runtime.js")).toString()
-  html = html.replace("@@code@@", js)
-  res.send(html)
-})
+const _ip = getIPAdress();
+
+app.get('/', (req, res) => {
+    let html = fs.readFileSync(path.join(WORK_DIR, 'guide.html')).toString();
+    let js = fs.readFileSync(path.join(WORK_DIR, 'install-runtime.js')).toString();
+
+    js = js.replace('*|IP_ADDRESS|*', `${_ip}:${HTTP_PORT}`);
+
+    // 从Scripts文件夹读取所有文件
+    let files = fs.readdirSync(SCRIPTS_DIR);
+    let filesStr = '';
+
+    for (const file of files) {
+        // 格式化文件名
+        filesStr += `'${file}',`; 
+    }
+    
+    js = js.replace('*|FILES|*', filesStr);
+
+    html = html.replace('@@code@@', js);
+
+    res.send(html);
+});
+
+app.get('/Scripts/:fileName', (req, res) => {
+    try {
+        let js = fs.readFileSync(path.join(SCRIPTS_DIR, req.params['fileName'])).toString();
+        res.send(js);
+    } catch (e) {
+        res.send('//访问文件错误');
+    }
+});
 
 app.get('/ping', (req, res) => {
   console.log('[-] ping..')
@@ -117,7 +143,6 @@ function getIPAdress() {
   }
 }
 
-const _ip = getIPAdress()
 const _host = `http://${_ip}:${HTTP_PORT}`
 
 console.log('[*] 「小件件」开发服务运行中')
