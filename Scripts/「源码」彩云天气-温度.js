@@ -29,7 +29,10 @@ class Widget extends Base {
    * 可以根据 this.widgetFamily 来判断小组件尺寸，以返回不同大小的内容
    */
   async render () {
-    const data = await this.getData()
+    const gps = await Location.current() // 获取当前位置
+    const dataOfTempature = await this.getDataOfTempature(gps)
+    const dataOfWeather = await this.getDataOfWeather(gps)
+
     // try {
     //     if (data["status"] !== "ok") {
     //       return this.renderFail(data['error'], true);
@@ -39,11 +42,11 @@ class Widget extends Base {
     // }
     switch (this.widgetFamily) {
       case 'large':
-        return await this.renderLarge(data["result"]["daily"])
+        return await this.renderLarge(dataOfTempature["result"], dataOfWeather["result"])
       case 'medium':
-        return await this.renderMedium(data["result"]["daily"])
+        return await this.renderMedium(dataOfTempature["result"], dataOfWeather["result"])
       default:
-        return await this.renderSmall(data["result"]["daily"])
+        return await this.renderSmall(dataOfTempature["result"])
     }
   }
 
@@ -65,13 +68,13 @@ class Widget extends Base {
     let w = new ListWidget()
     w.url = this.actionUrl('open-url')
     await this.renderHeader(w, this.logo, this.name)
-    const t1 = w.addText("平均温度：" + data["temperature"][0]['avg'].toString())
+    const t1 = w.addText("平均温度：" + data["daily"]["temperature"][0]['avg'].toString())
     t1.font = Font.lightSystemFont(16)
-    const t2 = w.addText("最高温度：" + data["temperature"][0]['max'].toString())
-    t2.font = Font.lightSystemFont(18)
+    const t2 = w.addText("最高温度：" + data["daily"]["temperature"][0]['max'].toString())
+    t2.font = Font.lightSystemFont(16)
     t2.textColor = Color.red()
-    const t3 = w.addText("最低温度：" + data["temperature"][0]['min'].toString())
-    t3.font = Font.lightSystemFont(18)
+    const t3 = w.addText("最低温度：" + data["daily"]["temperature"][0]['min'].toString())
+    t3.font = Font.lightSystemFont(16)
     t3.textColor = Color.blue()
     w.addSpacer()
     return w
@@ -79,40 +82,55 @@ class Widget extends Base {
   /**
    * 渲染中尺寸组件
    */
-  async renderMedium (data, num = 3) {
+  async renderMedium (data1, data2) {
     let w = new ListWidget()
+    w.url = this.actionUrl('open-url')
     await this.renderHeader(w, this.logo, this.name)
-    data['data'].slice(0, num).map(d => {
-      const cell = w.addStack()
-      cell.centerAlignContent()
-      const cell_box = cell.addStack()
-      cell_box.size = new Size(3, 15)
-      cell_box.backgroundColor = new Color('#ff837a', 0.6)
-      cell.addSpacer(10)
-      const cell_text = cell.addText(d['title'])
-      cell_text.font = Font.lightSystemFont(16)
-      cell.url = this.actionUrl("open-url", d['url'])
-      cell.addSpacer()
-      w.addSpacer(10)
-    })
-    w.addSpacer()
+
+    const tempatureResult = `温度：${data1["daily"]["temperature"][0]['max'].toString()}~${data1["daily"]["temperature"][0]['min'].toString()} 平均：${data1["daily"]["temperature"][0]['avg'].toString()}`
+    const tempatureText = w.addText(tempatureResult)
+    tempatureText.font = Font.lightSystemFont(14)
+    tempatureText.textColor = Color.blue()
+
+    let alert_md = '';
+    if (data2.alert.content.length > 0) {
+      alert_md += '天气预警 ⚠\n';
+      data2.alert.content.map(a => {
+        alert_md += `${a.title}\n${a.description}`;
+      });
+    }
+    let result = `提醒：${data2.minutely.description.trim()}；${data2.hourly.description.trim()}。\n${alert_md}`;
+
+    w.addSpacer(10)
+    let t = w.addText(result)
+    t.font = Font.lightSystemFont(14)
     return w
   }
   /**
    * 渲染大尺寸组件
    */
-  async renderLarge (data) {
-    return await this.renderMedium(data, 10)
+  async renderLarge (data1, data2) {
+    return await this.renderMedium(data1, data2)
   }
 
   /**
-   * 获取数据函数，函数名可不固定
+   * 获取近两天天气数据
    */
-  async getData () {
-    let gps = await Location.current()
+  async getDataOfTempature (gps) {
     const api = `https://api.caiyunapp.com/v2.6/TAkhjf8d1nlSlspN/${gps["longitude"]},${gps["latitude"]}/daily?dailysteps=1`
     console.log(api)
     return await this.httpGet(api)
+  }
+
+  /**
+   * 获取天气综合数据
+   * @returns JSON对象
+   */
+  async getDataOfWeather (gps) {
+    let api = `https://api.caiyunapp.com/v2.5/TAkhjf8d1nlSlspN/${gps["longitude"]},${gps["latitude"]}/weather.json?alert=true`
+    let req = new Request(api)
+    let res = await req.loadJSON()
+    return res
   }
 
   /**
