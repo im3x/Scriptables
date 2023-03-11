@@ -19,7 +19,7 @@ class Widget extends Base {
    */
   constructor (arg) {
     super(arg)
-    this.name = '彩云天气-温度'
+    this.name = '彩云天气'
     this.desc = '「小件件」—— 原创精美实用小组件'
     this.logo = 'https://docs.caiyunapp.com/img/favicon.ico'
   }
@@ -29,7 +29,12 @@ class Widget extends Base {
    * 可以根据 this.widgetFamily 来判断小组件尺寸，以返回不同大小的内容
    */
   async render () {
-    const gps = await Location.current() // 获取当前位置
+    let gps = {"longitude":"116", "latitude":"39"} // 因为经常出现获取位置权限失败的情况，因此先默认一个经纬度
+    try {
+        gps = await Location.current() // 获取当前位置
+    } catch (e) {
+        console.error("获取位置异常", e)
+    }
     const dataOfTempature = await this.getDataOfTempature(gps)
     const dataOfWeather = await this.getDataOfWeather(gps)
 
