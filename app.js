@@ -20,6 +20,10 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(bodyParser.json())
 
+function shellQuote(value) {
+  return "'" + String(value).replace(/'/g, "'\\''") + "'"
+}
+
 app.get("/", (req, res) => {
   let html = fs.readFileSync(path.join(WORK_DIR, "guide.html")).toString()
   let js = fs.readFileSync(path.join(WORK_DIR, "install-runtime.js")).toString()
@@ -40,7 +44,7 @@ app.get('/sync', (req, res) => {
   // console.log('[-] 等待同步到手机..')
   const { name } = req.query
 
-  const WIDGET_FILE = path.join(SCRIPTS_DIR, name + '.js')
+  const WIDGET_FILE = path.join(SCRIPTS_DIR, path.basename(String(name || '')) + '.js')
   if (!fs.existsSync(WIDGET_FILE)) return res.send("nofile").end()
 
   setTimeout(() => {
@@ -64,7 +68,7 @@ app.post("/sync", (req, res) => {
   if (req.files.length !== 1) return res.send("no")
   console.log('[+] Scriptalbe App 已连接')
   const _file = req.files[0]
-  const FILE_NAME = _file['originalname'] + '.js'
+  const FILE_NAME = path.basename(_file['originalname']) + '.js'
   const WIDGET_FILE = path.join(SCRIPTS_DIR, FILE_NAME)
   fs.renameSync(_file['path'], WIDGET_FILE)
   res.send("ok")
@@ -76,9 +80,9 @@ app.post("/sync", (req, res) => {
     cmd = `cmd.exe /c ${cmd}`
   } else if (os.platform() === "linux") {
     let shell = process.env["SHELL"]
-    cmd = `${shell} -c ${cmd}`
+    cmd = `${shell} -c code ${shellQuote(WIDGET_FILE)}`
   } else {
-    cmd = `"/Applications/Visual Studio Code.app/Contents/MacOS/Electron" "${WIDGET_FILE}"`
+    cmd = `"/Applications/Visual Studio Code.app/Contents/MacOS/Electron" ${shellQuote(WIDGET_FILE)}`
   }
   child_process.execSync(cmd)
 })
